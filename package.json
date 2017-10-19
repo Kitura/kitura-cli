@@ -1,0 +1,30 @@
+{
+  "name": "kitura-cli",
+  "version": "0.0.1",
+  "description": "Kitura command-line interface",
+  "bin": {
+    "kitura": "kitura.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IBM-Swift/kitura-cli.git"
+  },
+  "keywords": [
+    "kitura",
+    "swift",
+    "yeoman",
+    "yo"
+  ],
+  "author": "ianpartridge",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/IBM-Swift/kitura-cli/issues"
+  },
+  "homepage": "https://github.com/IBM-Swift/kitura-cli#readme",
+  "dependencies": {
+    "commander": "^2.11.0"
+  }
+}
