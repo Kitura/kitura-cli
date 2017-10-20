@@ -7,4 +7,11 @@ program
 
 const spawn = require('child_process').spawn;
 
-spawn('yo', ['swiftserver', '--init'], { stdio: 'inherit' });
+try {
+    var child = spawn('yo', ['swiftserver', '--init'], { stdio: 'inherit' });
+    child.on('error', function(err) {
+        console.log(err);
+    });
+} catch(err) {
+    console.log(err);
+}
