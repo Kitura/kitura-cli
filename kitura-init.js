@@ -9,9 +9,12 @@ const spawn = require('child_process').spawn;
 
 try {
     var child = spawn('yo', ['swiftserver', '--init'], { stdio: 'inherit' });
-    child.on('error', function(err) {
-        console.log(err);
+    child.on('error', (err) => {
+        console.error(err);
+    });
+    child.on('close', (code) => {
+        process.exit(code);
     });
 } catch(err) {
-    console.log(err);
+    console.error(err);
 }
