@@ -5,4 +5,6 @@ const program = require('commander');
 program
     .parse(process.argv);
 
-console.log('Launching Yeoman...');
+const spawn = require('child_process').spawn;
+
+spawn('yo', ['swiftserver'], { stdio: 'inherit' });
