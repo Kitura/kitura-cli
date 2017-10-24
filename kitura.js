@@ -8,4 +8,5 @@ program
     .description('Kitura command-line interface')
     .command('init', 'scaffold a bare-bones Kitura project').alias('i')
     .command('create', 'interactively create a Kitura project').alias('c')
+    .command('idt', 'install IBM Cloud Developer Tools')
     .parse(process.argv);
