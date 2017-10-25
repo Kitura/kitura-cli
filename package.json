@@ -1,6 +1,6 @@
 {
   "name": "kitura-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Kitura command-line interface",
   "bin": {
     "kitura": "kitura.js",
