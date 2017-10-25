@@ -14,7 +14,7 @@ $ brew install kitura
 ```
 $ npm install -g yo
 $ npm install -g generator-swiftserver
-$ npm install kitura-cli
+$ npm install -g kitura-cli
 ```
 
 ## Usage
