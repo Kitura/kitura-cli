@@ -7,14 +7,14 @@ const request = require('request');
 program
     .parse(process.argv);
 
-const url = 'tbc'; // FIXME
+const url = 'https://api.github.com/repos/IBM-Swift/KituraKit/zipball';
 const filename = 'KituraKit.zip';
 
 // Download KituraKit from GitHub
 console.log('Downloading...');
 
 request
-    .get({url, followAllRedirects: true})
+    .get({url, followAllRedirects: true, headers: { 'User-Agent': 'node.js'}})
     .on('error', (err) => {
         console.error(chalk.red('Error: ') + 'download failed.');
     })
