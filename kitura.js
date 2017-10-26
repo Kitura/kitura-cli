@@ -10,4 +10,5 @@ program
     .command('create', 'interactively create a Kitura project').alias('c')
     .command('idt', 'install IBM Cloud Developer Tools')
     .command('init', 'scaffold a bare-bones Kitura project').alias('i')
+    .command('run', 'run the project in a local container')
     .parse(process.argv);

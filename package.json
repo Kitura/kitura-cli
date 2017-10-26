@@ -7,7 +7,8 @@
     "kitura-build": "kitura-build.js",
     "kitura-create": "kitura-create.js",
     "kitura-idt": "kitura-idt.js",
-    "kitura-init": "kitura-init.js"
+    "kitura-init": "kitura-init.js",
+    "kitura-run": "kitura-run.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
