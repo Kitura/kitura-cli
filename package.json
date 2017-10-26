@@ -4,9 +4,10 @@
   "description": "Kitura command-line interface",
   "bin": {
     "kitura": "kitura.js",
-    "kitura-init": "kitura-init.js",
+    "kitura-build": "kitura-build.js",
     "kitura-create": "kitura-create.js",
-    "kitura-idt": "kitura-idt.js"
+    "kitura-idt": "kitura-idt.js",
+    "kitura-init": "kitura-init.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,6 +29,7 @@
   },
   "homepage": "https://github.com/IBM-Swift/kitura-cli#readme",
   "dependencies": {
+    "chalk": "^2.3.0",
     "commander": "^2.11.0",
     "request": "^2.83.0"
   }
