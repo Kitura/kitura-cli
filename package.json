@@ -8,6 +8,7 @@
     "kitura-create": "kitura-create.js",
     "kitura-idt": "kitura-idt.js",
     "kitura-init": "kitura-init.js",
+    "kitura-kit": "kitura-kit.js",
     "kitura-run": "kitura-run.js"
   },
   "scripts": {
