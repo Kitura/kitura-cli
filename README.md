@@ -9,6 +9,8 @@ $ brew tap ibm-swift/kitura
 $ brew install kitura
 ```
 
+Installing via Homebrew will also install the latest version of Node.js on your system.
+
 ## Installation via NPM
 
 ```
@@ -16,6 +18,8 @@ $ npm install -g yo
 $ npm install -g generator-swiftserver
 $ npm install -g kitura-cli
 ```
+
+> If you encounter permissions errors such as `ENOENT` you may need to make changes to your NPM configuration. See [here](https://docs.npmjs.com/getting-started/fixing-npm-permissions) for further details.
 
 ## Usage
 
