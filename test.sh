@@ -1,5 +1,5 @@
 #!/bin/bash
 
-kitura -V
+kitura --version
 
 echo "Testing Succeeded"
