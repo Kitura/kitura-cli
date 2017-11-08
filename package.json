@@ -12,7 +12,7 @@
     "kitura-run": "kitura-run.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./test.sh"
   },
   "repository": {
     "type": "git",
