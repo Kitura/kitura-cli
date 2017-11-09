@@ -14,8 +14,6 @@ Installing via Homebrew will also install the latest version of Node.js on your 
 ## Installation via NPM
 
 ```
-$ npm install -g yo
-$ npm install -g generator-swiftserver
 $ npm install -g kitura-cli
 ```
 

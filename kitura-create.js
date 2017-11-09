@@ -1,30 +1,23 @@
 #!/usr/bin/env node
 
-const chalk = require('chalk');
 const program = require('commander');
 const spawn = require('child_process').spawn;
-const spawnSync = require('child_process').spawnSync;
 
 program
     .arguments('[modelname]')
     .parse(process.argv);
 
-// Run NPM to install the Yeoman generator
-var npm = spawnSync('npm', ['install', '-g', 'generator-swiftserver'], { stdio: 'inherit' });
-if (npm.error) {
-    console.error(chalk.red('Error: ') + 'NPM package installation failed');
-    process.exit(npm.status);
-}
-
-let options = ['swiftserver']
+let options = ['-p', 'yo@1', '-p', 'generator-swiftserver', '--', 'yo'];
 
 // If a parameter is passed, use this as a model name
 if (program.args[0]) {
-    options = ['swiftserver:model', program.args[0]];
+    options.push('swiftserver:model', program.args[0]);
+} else {
+    options.push('swiftserver');
 }
 
 // Run the generator
-let child = spawn('yo', options, { stdio: 'inherit' });
+let child = spawn('npx', options, { stdio: 'inherit' });
 child.on('error', (err) => {
     console.error(err);
 });
