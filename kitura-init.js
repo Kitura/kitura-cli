@@ -3,10 +3,17 @@
 const program = require('commander');
 const spawn = require('child_process').spawn;
 
-program
-    .parse(process.argv);
+let args = process.argv.slice(2);
 
-let child = spawn('npx', ['-p', 'yo@1', '-p', 'generator-swiftserver', '--', 'yo', 'swiftserver', '--init'], { stdio: 'inherit' });
+let options = ['-p', 'yo@1', '-p', 'generator-swiftserver', '--', 'yo', 'swiftserver'];
+
+if (args.length > 0) {
+    options.push(args);
+}
+
+options.push('--init');
+
+let child = spawn('npx', options, { stdio: 'inherit' });
 child.on('error', (err) => {
     console.error(err);
 });
