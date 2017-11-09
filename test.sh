@@ -5,6 +5,7 @@ if [ -z "$TMPDIR" ];then
 fi
 
 TESTDIR="$TMPDIR/kitura-cli-test"
+DIRNAME="test"
 
 echo "Cleaning any prior test directory $TESTDIR"
 rm -rf "$TESTDIR"
@@ -36,6 +37,18 @@ then
     rm -rf "$TESTDIR"
     exit 1
 fi
+
+mkdir $DIRNAME
+cd $DIRNAME || exit 1
+if ! kitura init --skip-build
+then
+    echo "Failed"
+    cd ..
+    rm -rf "$TESTDIR"
+    exit 1
+fi
+cd ..
+rm -rf $DIRNAME
 
 echo "Cleaning up test directory"
 rm -rf $TESTDIR
