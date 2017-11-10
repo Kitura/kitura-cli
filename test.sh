@@ -31,6 +31,7 @@ rm "$PKG"
 
 cd "$TESTDIR" || exit 1
 
+echo "Testing: kitura --version"
 if ! kitura --version
 then
     echo "Failed"
@@ -38,6 +39,7 @@ then
     exit 1
 fi
 
+echo "Testing: kitura init --skip-build"
 mkdir $DIRNAME
 cd $DIRNAME || exit 1
 if ! kitura init --skip-build
@@ -49,6 +51,26 @@ then
 fi
 cd ..
 rm -rf $DIRNAME
+
+echo "Testing: kitura create --app --skip-build --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
+if ! kitura create --app --skip-build --spec '{ "appType": "crud", "appName": "test"}'
+then
+    echo "Failed"
+    rm -rf "$TESTDIR"
+    exit 1
+fi
+echo "Cleaning up generated project"
+rm -rf swiftserver
+
+echo "Testing: kitura create --app --skip-build --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
+if ! kitura create --app --skip-build --spec '{ "appType": "scaffold", "appName": "test"}'
+then
+    echo "Failed"
+    rm -rf "$TESTDIR"
+    exit 1
+fi
+echo "Cleaning up generated project"
+rm -rf swiftserver
 
 echo "Cleaning up test directory"
 rm -rf $TESTDIR

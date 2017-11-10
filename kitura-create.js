@@ -1,19 +1,25 @@
 #!/usr/bin/env node
 
-const program = require('commander');
 const spawn = require('child_process').spawn;
 
-program
-    .arguments('[modelname]')
-    .parse(process.argv);
+// Remove the node executable and script name
+let args = process.argv.slice(2);
 
-let options = ['-p', 'yo@1', '-p', 'generator-swiftserver', '--', 'yo'];
+let options = ['-p', 'yo@1', '-p', 'generator-swiftserver', '--', 'yo', 'swiftserver'];
 
-// If a parameter is passed, use this as a model name
-if (program.args[0]) {
-    options.push('swiftserver:model', program.args[0]);
-} else {
-    options.push('swiftserver');
+if (args.length > 0) {
+    if (args.indexOf('--help') > -1) {
+        printHelp();
+        process.exit(0);
+    }
+    // If the first argument starts with '--' assume it is the name
+    // of the subgenerator to run and replace 'swiftserver' with
+    // 'swiftserver:subgeneratorname'.
+    if (args[0].startsWith('--') && args[0].length > 2) {
+        options[options.length - 1] = options[options.length - 1] + ':' + args.shift().substr(2);
+    }
+    // Add on the rest of the arguments
+    options = options.concat(args);
 }
 
 // Run the generator
@@ -24,3 +30,19 @@ child.on('error', (err) => {
 child.on('close', (code) => {
     process.exit(code);
 });
+
+function printHelp() {
+    console.log("");
+    console.log("  Usage: kitura create [<name>] [options]");
+    console.log("");
+    console.log("  Interactively create a Kitura project.");
+    console.log("");
+    console.log("  Options:");
+    console.log("");
+    console.log("    <name>            project name");
+    console.log("    --help            print this help");
+    console.log("    --model [<name>]  run the model subgenerator");
+    console.log("    --property        run the property subgenerator");
+    console.log("    --skip-build      do not build the project");
+    console.log("");
+}
