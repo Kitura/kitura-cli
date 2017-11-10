@@ -72,6 +72,13 @@ fi
 echo "Cleaning up generated project"
 rm -rf swiftserver
 
+echo "Testing: kitura kit"
+kitura kit || exit 1
+if [ ! -f KituraKit.zip ]; then
+    echo "Could not find KituraKit.zip"
+    exit 1
+fi
+
 echo "Cleaning up test directory"
 rm -rf $TESTDIR
 
