@@ -29,8 +29,9 @@ request(url, options, function(error, response, body) {
     }
 
     let latestKit;
+    let releases;
     try {
-        let releases = JSON.parse(body);
+        releases = JSON.parse(body);
         console.error(releases);
         latestKit = releases[0].assets[0].browser_download_url;
     } catch (err) {
