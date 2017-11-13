@@ -25,6 +25,7 @@ console.log('Downloading KituraKit...');
 request(url, options, function(error, response, body) {
     if (error) {
         console.error(chalk.red('Error: ') + 'failed to get releases from GitHub.');
+        console.error(error);
         return;
     }
 
