@@ -36,6 +36,7 @@ request(url, options, function(error, response, body) {
     } catch (err) {
         console.error(chalk.red('Error: ') + 'failed to find release URL from GitHub.');
         console.error(err);
+        console.error(releases);
         return;
     }
 
