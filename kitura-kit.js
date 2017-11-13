@@ -25,7 +25,6 @@ console.log('Downloading KituraKit...');
 request(url, options, function(error, response, body) {
     if (error) {
         console.error(chalk.red('Error: ') + 'failed to get releases from GitHub.');
-        console.error(error);
         return;
     }
 
@@ -33,9 +32,11 @@ request(url, options, function(error, response, body) {
     try {
         let releases = JSON.parse(body);
         console.error(releases);
-        latestKit = releases[0].assets[0].browser_download_url
+        latestKit = releases[0].assets[0].browser_download_url;
     } catch (err) {
         console.error(chalk.red('Error: ') + 'failed to find release URL from GitHub.');
+        let errorMessage = releases[0].message;
+        console.error(errorMessage);
         console.error(err);
         return;
     }
