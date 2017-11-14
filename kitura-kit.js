@@ -22,7 +22,7 @@ const filename = 'KituraKit.zip';
 // Download KituraKit from GitHub
 console.log('Downloading KituraKit...');
 
-request(url, options, function(error, response, body) {
+request(url, options, (error, response, body) => {
     if (error) {
         console.error(chalk.red('Error: ') + 'failed to get releases from GitHub.');
         return;
@@ -33,9 +33,12 @@ request(url, options, function(error, response, body) {
     try {
         releases = JSON.parse(body);
         latestKit = releases[0].assets[0].browser_download_url;
-    } catch (err) {
+    } catch (e) {
         console.error(chalk.red('Error: ') + 'failed to find release URL from GitHub.');
-        console.error(releases.message);
+        try {
+            console.error(releases.message);
+        } catch (e) {
+        }
         return;
     }
 
