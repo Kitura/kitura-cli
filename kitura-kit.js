@@ -32,13 +32,10 @@ request(url, options, function(error, response, body) {
     let releases;
     try {
         releases = JSON.parse(body);
-        console.error(releases);
         latestKit = releases[0].assets[0].browser_download_url;
     } catch (err) {
         console.error(chalk.red('Error: ') + 'failed to find release URL from GitHub.');
-        let errorMessage = releases.message;
-        console.error(errorMessage);
-        console.error(err);
+        console.error(releases.message);
         return;
     }
 
