@@ -36,7 +36,7 @@ request(url, options, function(error, response, body) {
         latestKit = releases[0].assets[0].browser_download_url;
     } catch (err) {
         console.error(chalk.red('Error: ') + 'failed to find release URL from GitHub.');
-        let errorMessage = releases[0].message;
+        let errorMessage = releases.message;
         console.error(errorMessage);
         console.error(err);
         return;
