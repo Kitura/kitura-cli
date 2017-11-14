@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const chalk = require('chalk');
 const spawn = require('child_process').spawn;
 
 // Remove the node executable and script name
@@ -12,12 +13,14 @@ if (args.length > 0) {
         printHelp();
         process.exit(0);
     }
+
     // If the first argument starts with '--' assume it is the name
     // of the subgenerator to run and replace 'swiftserver' with
     // 'swiftserver:subgeneratorname'.
     if (args[0].startsWith('--') && args[0].length > 2) {
         options[options.length - 1] = options[options.length - 1] + ':' + args.shift().substr(2);
     }
+
     // Add on the rest of the arguments
     options = options.concat(args);
 }
@@ -25,7 +28,8 @@ if (args.length > 0) {
 // Run the generator
 let child = spawn('npx', options, { stdio: 'inherit' });
 child.on('error', (err) => {
-    console.error(err);
+    console.error(chalk.red('Error: ') + 'failed to run npx.');
+    console.error('Please check `node -v` is >= v8.2.0 and `npm -v` is >= 5.2.0.');
 });
 child.on('close', (code) => {
     process.exit(code);
