@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const chalk = require('chalk');
 const spawn = require('child_process').spawn;
 
 let args = process.argv.slice(2);
@@ -11,6 +12,8 @@ if (args.length > 0) {
         printHelp();
         process.exit(0);
     }
+
+    // Add on the arguments
     options.push(args);
 }
 
@@ -18,7 +21,8 @@ options.push('--init');
 
 let child = spawn('npx', options, { stdio: 'inherit' });
 child.on('error', (err) => {
-    console.error(err);
+    console.error(chalk.red('Error: ') + 'failed to run npx.');
+    console.error('Please check `node -v` is >= v8.2.0 and `npm -v` is >= 5.2.0.');
 });
 child.on('close', (code) => {
     process.exit(code);
