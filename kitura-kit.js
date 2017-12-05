@@ -25,6 +25,7 @@ console.log('Downloading KituraKit...');
 request(url, options, (error, response, body) => {
     if (error) {
         console.error(chalk.red('Error: ') + 'failed to get releases from GitHub.');
+        console.error('Visit https://github.com/IBM-Swift/KituraKit/releases to download manually.');
         return;
     }
 
@@ -35,10 +36,10 @@ request(url, options, (error, response, body) => {
         latestKit = releases[0].assets[0].browser_download_url;
     } catch (e) {
         console.error(chalk.red('Error: ') + 'failed to find release URL from GitHub.');
-        try {
+        if (releases.message) {
             console.error(releases.message);
-        } catch (e) {
         }
+        console.error('Visit https://github.com/IBM-Swift/KituraKit/releases to download manually.');
         return;
     }
 
@@ -46,6 +47,7 @@ request(url, options, (error, response, body) => {
         .get(latestKit, options)
         .on('error', (err) => {
             console.error(chalk.red('Error: ') + 'download failed.');
+            console.error('Visit https://github.com/IBM-Swift/KituraKit/releases to download manually.');
         })
         .on('response', (response) => {
             console.log('KituraKit downloaded to ' + filename);
