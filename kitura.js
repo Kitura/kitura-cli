@@ -10,6 +10,6 @@ program
     .command('create', 'interactively create a Kitura project')
     .command('idt', 'install IBM Cloud Developer Tools')
     .command('init', 'scaffold a bare-bones Kitura project')
-    .command('kit', 'download the KituraKit zip file')
+    .command('kit', 'print Cocoapods boilerplate for KituraKit')
     .command('run', 'run the project in a local container')
     .parse(process.argv);

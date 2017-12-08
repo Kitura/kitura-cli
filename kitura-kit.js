@@ -1,56 +1,12 @@
 #!/usr/bin/env node
 
-const chalk = require('chalk');
-const fs = require('fs');
 const program = require('commander');
-const request = require('request');
 
 program
     .parse(process.argv);
 
-const options = {
-    method: "GET",
-    followAllRedirects: true,
-    headers: {
-        "user-agent": "node.js"
-    }
-};
+console.log('Add the following lines to your Podfile to install KituraKit into your iOS app using CocoaPods:');
+console.log('');
+console.log('# Pod for KituraKit');
+console.log('pod \'KituraKit\', :git => \'https://github.com/IBM-Swift/KituraKit.git\', :branch => \'pod\'');
 
-const url = 'https://api.github.com/repos/IBM-Swift/KituraKit/releases';
-const filename = 'KituraKit.zip';
-
-// Download KituraKit from GitHub
-console.log('Downloading KituraKit...');
-
-request(url, options, (error, response, body) => {
-    if (error) {
-        console.error(chalk.red('Error: ') + 'failed to get releases from GitHub.');
-        console.error('Visit https://github.com/IBM-Swift/KituraKit/releases to download manually.');
-        return;
-    }
-
-    let latestKit;
-    let releases;
-    try {
-        releases = JSON.parse(body);
-        latestKit = releases[0].assets[0].browser_download_url;
-    } catch (e) {
-        console.error(chalk.red('Error: ') + 'failed to find release URL from GitHub.');
-        if (releases.message) {
-            console.error(releases.message);
-        }
-        console.error('Visit https://github.com/IBM-Swift/KituraKit/releases to download manually.');
-        return;
-    }
-
-    request
-        .get(latestKit, options)
-        .on('error', (err) => {
-            console.error(chalk.red('Error: ') + 'download failed.');
-            console.error('Visit https://github.com/IBM-Swift/KituraKit/releases to download manually.');
-        })
-        .on('response', (response) => {
-            console.log('KituraKit downloaded to ' + filename);
-        })
-        .pipe(fs.createWriteStream(filename));
-    });
