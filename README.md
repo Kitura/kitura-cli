@@ -41,7 +41,7 @@ $ kitura
     create      interactively create a Kitura project
     idt         install IBM Cloud Developer Tools
     init        scaffold a bare-bones Kitura project
-    kit         download the KituraKit zip file
+    kit         print Cocoapods boilerplate for KituraKit
     run         run the project in a local container
     help [cmd]  display help for [cmd]
 ```
