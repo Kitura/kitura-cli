@@ -72,6 +72,14 @@ fi
 echo "Cleaning up generated project"
 rm -rf swiftserver
 
+echo "Testing: kitura kit"
+if ! kitura kit
+then
+    echo "Failed"
+    rm -rf "$TESTDIR"
+    exit 1
+fi
+
 echo "Cleaning up test directory"
 rm -rf $TESTDIR
 
