@@ -1,5 +1,7 @@
 # Kitura command-line interface
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/IBM-Swift/kitura-cli.svg)](https://greenkeeper.io/)
+
 This Node.js package provides a `kitura` command-line interface, to simplify the process of creating [Kitura](https://github.com/IBM-Swift/Kitura) applications.
 
 ## Installation via Homebrew
