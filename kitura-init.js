@@ -61,7 +61,7 @@ function checkEmptyDir() {
 
 function cloneProject() {
   console.log('Creating project...')
-  let clone = spawnSync('git', ['clone', 'https://github.com/IBM-Swift/generator-swiftserver-projects', '.'])
+  let clone = spawnSync('git', ['clone', '-b', 'init', 'https://github.com/IBM-Swift/generator-swiftserver-projects', '.'])
 
   if (clone.status !== 0) {
     console.error(chalk.red('Error: ') + 'failed to run git clone.');
