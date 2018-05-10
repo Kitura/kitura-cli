@@ -7,6 +7,7 @@ branches:
   - /^greenkeeper/.*$/
 node_js:
 - '8'
+- '10'
 os:
 - linux
 - osx
