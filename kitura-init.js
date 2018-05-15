@@ -25,13 +25,9 @@ let projName = currentDir.replace(/ /g,"-");
 
 if (projName.charAt(0) === '.') {
     console.error(chalk.red('Application name cannot start with .: %s'));
+    process.exit(1)
    }
-if (projName.toLowerCase() === 'node_modules') {
-    console.error(chalk.red('Application name cannot be {node_modules}'));
-   }
-if (projName.toLowerCase() === 'favicon.ico') {
-    console.error(chalk.red('Application name cannot be {favicon.ico}'));
-}
+
 
 // Make sure directory is empty.
 checkCurrentDirIsEmpty();
@@ -51,12 +47,14 @@ function checkCurrentDirIsEmpty() {
   try {
       var data = fs.readdirSync('.');
       if (data.length !== 0) {
-            console.error(chalk.red('Current directory is not empty.'));
+            console.error(chalk.red('Error:') + 'Current directory is not empty.');
             console.error(chalk.red('Please repeat the command in an empty directory.'));
-            process.exit();
+            process.exit(1);
       }
   } catch (err) {
-      process.exit();
+      console.error(chalk.red('Error: ') + 'could not create project.');
+      console.error(err.message);
+      process.exit(err.errno);
   }
 }
 
@@ -66,8 +64,8 @@ function cloneProject(url, branch) {
 
     if (clone.status !== 0) {
         console.error(chalk.red('Error: ') + 'failed to run git clone.');
-        console.error('Please check that you have git installed.');
-        console.error('Head to https://git-scm.com/downloads for more info.');
+        console.error('Please check your network connection and that you have git installed.');
+        console.error('Head to https://git-scm.com/downloads for instructions on installing git.');
         process.exit(clone.status);
     } else {
         console.log(chalk.green('Project created successfully.'));
@@ -91,7 +89,7 @@ function cloneProject(url, branch) {
 }
 
 function renameProject() {
-    // Clean name can only contain alphanumberic characters
+    // Clean name can only contain alphanumeric characters
     let projNameClean = projName.replace(/^[^a-zA-Z]*/, '')
                                   .replace(/[^a-zA-Z0-9]/g, '');
     let oldProjName = "generator-swiftserver-projects";
