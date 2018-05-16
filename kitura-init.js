@@ -21,12 +21,12 @@ if (args.length > 0) {
 let currentDirPath = path.resolve("./");
 let currentDir = path.basename(currentDirPath);
 // Replace spaces with hyphens so Xcode project will build.
-let projName = currentDir.replace(/ /g,"-");
+let projName = currentDir.replace(/ /g, "-");
 
 if (projName.charAt(0) === '.') {
     console.error(chalk.red('Application name cannot start with .: %s'));
     process.exit(1)
-   }
+}
 
 
 // Make sure directory is empty.
@@ -44,18 +44,18 @@ if (!(args.includes('--skip-build'))) {
 }
 
 function checkCurrentDirIsEmpty() {
-  try {
-      var data = fs.readdirSync('.');
-      if (data.length !== 0) {
+    try {
+        var data = fs.readdirSync('.');
+        if (data.length !== 0) {
             console.error(chalk.red('Error:') + 'Current directory is not empty.');
             console.error(chalk.red('Please repeat the command in an empty directory.'));
             process.exit(1);
-      }
-  } catch (err) {
-      console.error(chalk.red('Error: ') + 'could not create project.');
-      console.error(err.message);
-      process.exit(err.errno);
-  }
+        }
+    } catch (err) {
+        console.error(chalk.red('Error: ') + 'could not create project.');
+        console.error(err.message);
+        process.exit(err.errno);
+    }
 }
 
 function cloneProject(url, branch) {
@@ -77,21 +77,21 @@ function cloneProject(url, branch) {
             console.log('');
             console.log('Or, build your project from the terminal:');
             console.log(chalk.grey('   $ swift build'));
-       }
-  }
+        }
+    }
 
-  // Remove git remote
-  let git = spawnSync('rm', ['-rf', '.git']);
-  if (git.status !== 0) {
-      console.error(chalk.red('Error: ') + 'failed to remove .git directory.');
-      process.exit(git.status);
-  }
+    // Remove git remote
+    let git = spawnSync('rm', ['-rf', '.git']);
+    if (git.status !== 0) {
+        console.error(chalk.red('Error: ') + 'failed to remove .git directory.');
+        process.exit(git.status);
+    }
 }
 
 function renameProject() {
     // Clean name can only contain alphanumeric characters
     let projNameClean = projName.replace(/^[^a-zA-Z]*/, '')
-                                  .replace(/[^a-zA-Z0-9]/g, '');
+        .replace(/[^a-zA-Z0-9]/g, '');
     let oldProjName = "generator-swiftserver-projects";
     let oldProjNameClean = "generatorswiftserverprojects";
 
@@ -105,13 +105,13 @@ function renameProject() {
         process.exit(err.errno);
     }
     // Rename instances of project name (charts can't contain special characters)
-    var renameClean = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/'+oldProjNameClean+'/'+projNameClean+'/g', '{}', ';'])
+    var renameClean = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjNameClean + '/' + projNameClean + '/g', '{}', ';'])
     if (renameClean.status !== 0) {
         console.error(chalk.red('Error: ') + 'could not rename project.');
         console.error(renameClean.stderr.toString());
         process.exit(renameClean.status);
     }
-    var rename = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/'+oldProjName+'/'+projName+'/g', '{}', ';'])
+    var rename = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjName + '/' + projName + '/g', '{}', ';'])
     if (rename.status !== 0) {
         console.error(chalk.red('Error: ') + 'could not rename project.');
         console.error(rename.stderr.toString());
@@ -127,8 +127,7 @@ function buildProject() {
         console.error(chalk.red('Failed to complete build.'));
         console.log(build.stderr.toString());
         process.exit(build.status);
-    }
-    else {
+    } else {
         console.log(chalk.green('Project built successfully.'));
         console.log('Next steps:');
         console.log('');
@@ -138,7 +137,7 @@ function buildProject() {
         console.log('Or, run your app from the terminal:');
         console.log(chalk.grey('   $ .build/debug/' + projName));
     }
-  }
+}
 
 
 
