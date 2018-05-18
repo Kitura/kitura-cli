@@ -25,9 +25,11 @@ let projName = currentDir.replace(/ /g, "-");
 
 if (projName.charAt(0) === '.') {
     console.error(chalk.red('Application name cannot start with .: %s'));
-    process.exit(1)
+    process.exit(1);
 }
 
+// Make sure directory doesn't contain problem characters.
+validateDirectoryName();
 
 // Make sure directory is empty.
 checkCurrentDirIsEmpty();
@@ -43,11 +45,22 @@ if (!(args.includes('--skip-build'))) {
     buildProject();
 }
 
+function validateDirectoryName(){
+  var problemChars = /[%:;="<>”|\\\/]/;
+  if (problemChars.test(projName)) {
+    console.error(chalk.red('Error: ') + 'Project directory cannot contain the folowwing characters:  %":;=<>”|\\');
+    process.exit(1);
+  }
+  else {
+    console.log("false")
+  }
+}
+
 function checkCurrentDirIsEmpty() {
     try {
         var data = fs.readdirSync('.');
         if (data.length !== 0) {
-            console.error(chalk.red('Error:') + 'Current directory is not empty.');
+            console.error(chalk.red('Error: ') + 'Current directory is not empty.');
             console.error(chalk.red('Please repeat the command in an empty directory.'));
             process.exit(1);
         }
@@ -89,11 +102,14 @@ function cloneProject(url, branch) {
 }
 
 function renameProject() {
-    // Clean name can only contain alphanumeric characters
+    // Only contains alphanumeric characters.
     let projNameClean = projName.replace(/^[^a-zA-Z]*/, '')
         .replace(/[^a-zA-Z0-9]/g, '');
-    let oldProjName = "generator-swiftserver-projects";
-    let oldProjNameClean = "generatorswiftserverprojects";
+    // Does not contain uppercase letters.
+    let projNameCleanLowercase = projNameClean.toLowerCase()
+    let oldProjName = "Generator-Swiftserver-Projects";
+    let oldProjNameClean = "GeneratorSwiftserverProjects";
+    let oldProjNameCleanLowercase = "generatorswiftserverprojects"
 
     // Rename directories (charts can't contain special characters).
     try {
@@ -111,6 +127,13 @@ function renameProject() {
         console.error(renameClean.stderr.toString());
         process.exit(renameClean.status);
     }
+    var renameLowercase = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjNameCleanLowercase + '/' + projNameCleanLowercase + '/g', '{}', ';'])
+    if (renameClean.status !== 0) {
+        console.error(chalk.red('Error: ') + 'could not rename project.');
+        console.error(renameClean.stderr.toString());
+        process.exit(renameClean.status);
+    }
+    // Rename instances of project name which can't contain Uppercase characters
     var rename = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjName + '/' + projName + '/g', '{}', ';'])
     if (rename.status !== 0) {
         console.error(chalk.red('Error: ') + 'could not rename project.');
