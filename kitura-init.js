@@ -111,9 +111,9 @@ function renameProject() {
     let oldProjNameClean = "GeneratorSwiftserverProjects";
     let oldProjNameCleanLowercase = "generatorswiftserverprojects"
 
-    // Rename directories (charts can't contain special characters).
+    // Rename directories (charts can't contain special characters or uppercase characters).
     try {
-        fs.renameSync("./chart/" + oldProjNameClean, "./chart/" + projNameClean);
+        fs.renameSync("./chart/" + oldProjNameCleanLowercase, "./chart/" + projNameCleanLowercase);
         fs.renameSync("./Sources/" + oldProjName, "./Sources/" + projName);
     } catch (err) {
         console.error(chalk.red('Error: ') + 'could not rename directories.');
