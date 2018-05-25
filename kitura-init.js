@@ -128,14 +128,23 @@ function buildProject() {
         console.log(build.stderr.toString());
         process.exit(build.status);
     } else {
-        console.log(chalk.green('Project built successfully.'));
-        console.log('Next steps:');
-        console.log('');
-        console.log('Generate your Xcode project:');
-        console.log(chalk.grey('   $ swift package generate-xcodeproj'));
-        console.log('');
-        console.log('Or, run your app from the terminal:');
-        console.log(chalk.grey('   $ .build/debug/' + projName));
+        console.log('Running `swift package generate-xcodeproj` to generate Xcode Project...');
+
+        var xcodeProj = spawnSync('swift', ['package', 'generate-xcodeproj'])
+        if (xcodeProj.status !== 0) {
+            console.error(chalk.red('Failed to generate Xcode Project.'));
+            console.log(xcodeProj.stderr.toString());
+            process.exit(xcodeProj.status);
+        } else {
+            console.log(chalk.green('Project built successfully.'));
+            console.log('Next steps:');
+            console.log('');
+            console.log('Open your Xcode project:');
+            console.log(chalk.grey('   $ open ' + projName + '.xcodeproj'));
+            console.log('');
+            console.log('Or, run your app from the terminal:');
+            console.log(chalk.grey('   $ .build/debug/' + projName));
+        }
     }
 }
 
