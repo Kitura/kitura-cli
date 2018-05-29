@@ -45,10 +45,10 @@ if (!(args.includes('--skip-build'))) {
     buildProject();
 }
 
-function validateDirectoryName(){
+function validateDirectoryName() {
   var problemChars = /[%:;="<>”|\\\/]/;
   if (problemChars.test(projName)) {
-    console.error(chalk.red('Error: ') + 'Project directory cannot contain the folowwing characters:  %":;=<>”|\\');
+    console.error(chalk.red('Error: ') + 'Project directory cannot contain the following characters:  %":;=<>”|\\');
     process.exit(1);
   }
   else {
