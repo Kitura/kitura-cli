@@ -45,3 +45,6 @@ $ kitura
     run         run the project in a local container
     help [cmd]  display help for [cmd]
 ```
+
+## Release process
+Instructions on releasing a new version of the kitura-cli can be found [here](Release-Process.md).
