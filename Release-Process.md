@@ -7,15 +7,17 @@ The following instructions are for releasing a new version of kitura-cli on both
 
 Once your PR has been merged:
 
-#### npm
+### npm
 
 - Run `npm version patch` (or replace 'patch' with 'major'/'minor' based on your changes).
 - Check that the right version has been created by running `git tag` and making sure the new version is listed.
+- Run `git status` and `git diff <commit hash of previous commit>` to check that the version has been updated by npm in the project. You can find the previous commit hash by using `git log`.
+- If everything looks ok, switch to a new branch by running `git checkout -b update-version` and run `git push` to push the update version changes.
+- Run `git push --tags`.
+- Raise and merge the PR with your tag changes.
+- `git checkout master && git pull` to make sure you have the updated code.
 - Run `npm publish`. You'll need to log in using `npm adduser` and make sure you are a collaborator on https://www.npmjs.com/package/kitura-cli/).
 - Check to make sure the [npm package](https://www.npmjs.com/package/kitura-cli/) has been updated.
-- Run `git status` and `git diff <commit hash of previous commit>` to check that the version has been updated by npm in the project. You can find the previous commit hash by using `git log`.
-- If everything looks ok, switch to a new branch by running `git checkout -b update-version` and run `git push` to push the update version changes. Raise and merge the PR.
-- Run `git push --tags`.
 
 ### homebrew
 
