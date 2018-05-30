@@ -51,9 +51,6 @@ function validateDirectoryName() {
     console.error(chalk.red('Error: ') + 'Project directory cannot contain the following characters:  %":;=<>”|\\');
     process.exit(1);
   }
-  else {
-    console.log("false")
-  }
 }
 
 function checkCurrentDirIsEmpty() {
