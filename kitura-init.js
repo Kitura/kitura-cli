@@ -142,18 +142,16 @@ function renameProject() {
 function buildProject() {
     console.log('Running `swift build` to build project...');
 
-    var build = spawnSync('swift', ['build'])
+    var build = spawnSync('swift', ['build'], { stdio:[0,1,2] });
     if (build.status !== 0) {
         console.error(chalk.red('Failed to complete build.'));
-        console.log(build.stderr.toString());
         process.exit(build.status);
     } else {
         console.log('Running `swift package generate-xcodeproj` to generate Xcode Project...');
 
-        var xcodeProj = spawnSync('swift', ['package', 'generate-xcodeproj'])
+        var xcodeProj = spawnSync('swift', ['package', 'generate-xcodeproj'], { stdio:[0,1,2] });
         if (xcodeProj.status !== 0) {
             console.error(chalk.red('Failed to generate Xcode Project.'));
-            console.log(xcodeProj.stderr.toString());
             process.exit(xcodeProj.status);
         } else {
             console.log(chalk.green('Project built successfully.'));
