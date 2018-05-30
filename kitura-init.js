@@ -99,7 +99,7 @@ function cloneProject(url, branch) {
 }
 
 function renameProject() {
-    let projNameLowercase = projName.toLowerCase()
+    let projNameLowercase = projName.toLowerCase();
     // Only contains alphanumeric characters.
     let projNameClean = projName.replace(/^[^a-zA-Z]*/, '')
         .replace(/[^a-zA-Z0-9]/g, '');
