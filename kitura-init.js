@@ -99,12 +99,14 @@ function cloneProject(url, branch) {
 }
 
 function renameProject() {
+    let projNameLowercase = projName.toLowerCase();
     // Only contains alphanumeric characters.
     let projNameClean = projName.replace(/^[^a-zA-Z]*/, '')
         .replace(/[^a-zA-Z0-9]/g, '');
     // Does not contain uppercase letters.
     let projNameCleanLowercase = projNameClean.toLowerCase()
     let oldProjName = "Generator-Swiftserver-Projects";
+    let oldProjNameLowercase = "generator-swiftserver-projects";
     let oldProjNameClean = "GeneratorSwiftserverProjects";
     let oldProjNameCleanLowercase = "generatorswiftserverprojects"
 
@@ -124,7 +126,13 @@ function renameProject() {
         console.error(renameClean.stderr.toString());
         process.exit(renameClean.status);
     }
-    var renameLowercase = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjNameCleanLowercase + '/' + projNameCleanLowercase + '/g', '{}', ';'])
+    var renameLowercase = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjNameLowercase + '/' + projNameLowercase + '/g', '{}', ';'])
+    if (renameClean.status !== 0) {
+        console.error(chalk.red('Error: ') + 'could not rename project.');
+        console.error(renameClean.stderr.toString());
+        process.exit(renameClean.status);
+    }
+    var renameLowercaseClean = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjNameCleanLowercase + '/' + projNameCleanLowercase + '/g', '{}', ';'])
     if (renameClean.status !== 0) {
         console.error(chalk.red('Error: ') + 'could not rename project.');
         console.error(renameClean.stderr.toString());
