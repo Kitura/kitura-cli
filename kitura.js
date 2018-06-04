@@ -12,4 +12,5 @@ program
     .command('init', 'scaffold a bare-bones Kitura project')
     .command('kit', 'print Cocoapods boilerplate for KituraKit')
     .command('run', 'run the project in a local container')
+    .command('sdk', 'generate a client SDK from an OpenAPI/Swagger spec')
     .parse(process.argv);
