@@ -36,11 +36,11 @@ function printHelp() {
     console.log("  Targets:");
     console.log("    --ios             Create an iOS SDK");
     console.log("    --android         Create an Android SDK");
-    console.log("    --js             Create a JavaScript SDK");
+    console.log("    --js              Create a JavaScript SDK");
     console.log("");
     console.log("  Options:");
     console.log("    -l <location>     Use a locally hosted specification, eg. http://localhost:8080/openapi");
-    console.log("    -f <location>     Use a loal file for the specification");
+    console.log("    -f <location>     Use a local file for the specification");
     console.log("    --help            print this help");
     console.log("");
     console.log("  Sample Usage:");
