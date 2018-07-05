@@ -9,7 +9,7 @@
     "kitura-idt": "kitura-idt.js",
     "kitura-init": "kitura-init.js",
     "kitura-kit": "kitura-kit.js",
-    "kitura-run": "kitura-run.js"
+    "kitura-run": "kitura-run.js",
     "kitura-sdk": "kitura-sdk.js"
   },
   "scripts": {
