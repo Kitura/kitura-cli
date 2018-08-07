@@ -169,7 +169,7 @@ function buildProject() {
             console.log(chalk.grey('   $ open ' + projName + '.xcodeproj'));
             console.log('');
             console.log('Or, run your app from the terminal:');
-            console.log(chalk.grey('   $ swift run');
+            console.log(chalk.grey('   $ swift run'));
         }
     }
 }
