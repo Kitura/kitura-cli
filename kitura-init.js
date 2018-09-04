@@ -34,8 +34,13 @@ validateDirectoryName();
 // Make sure directory is empty.
 checkCurrentDirIsEmpty();
 
-// Clone repo contents into current directory.
-cloneProject(initURL, initBranch);
+// If '--clone' specified, then clone project from provided git repository.
+if ((args.includes('--clone'))) {
+  cloneProject(process.argv[3], initBranch);
+} else {
+  // Clone repo contents into current directory.
+  cloneProject(initURL, initBranch);
+}
 
 // Rename project to match current directory
 renameProject();
@@ -173,8 +178,6 @@ function buildProject() {
         }
     }
 }
-
-
 
 function printHelp() {
     console.log("");
