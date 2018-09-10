@@ -57,10 +57,10 @@ mkdir $DIRNAME
 cd $DIRNAME || exit 1
 if ! kitura init --clone https://github.com/IBM-Swift/generator-swiftserver-projects
 then
-echo "Failed"
-cd ..
-rm -rf "$TESTDIR"
-exit 1
+    echo "Failed"
+    cd ..
+    rm -rf "$TESTDIR"
+    exit 1
 fi
 cd ..
 rm -rf $DIRNAME

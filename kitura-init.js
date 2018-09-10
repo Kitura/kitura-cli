@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const initURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects'
+const masterBranch = 'master'
 const initBranch = 'init'
 
 let args = process.argv.slice(2);
@@ -36,7 +37,11 @@ checkCurrentDirIsEmpty();
 
 // If '--clone' specified, then clone project from provided git repository.
 if ((args.includes('--clone'))) {
-  cloneProject(process.argv[3], initBranch);
+  if ((args.includes('--branch'))) {
+    cloneProject(process.argv[3], process.argv[5]);
+  } else {
+    cloneProject(process.argv[3], masterBranch);
+  }
 } else {
   // Clone repo contents into current directory.
   cloneProject(initURL, initBranch);
