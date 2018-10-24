@@ -74,8 +74,10 @@ module.exports = {
       try {
         if (branch !== 'basic') {
           fs.renameSync("./chart/" + oldProjNameCleanLowercase, "./chart/" + projNameCleanLowercase);
-        }
           fs.renameSync("./Sources/" + oldProjName, "./Sources/" + projectName);
+        } else {
+          fs.renameSync("./Sources/" + oldProjNameLowercase, "./Sources/" + projectName);
+        }
       } catch (err) {
           console.error(chalk.red('Error: ') + 'could not rename directories.');
           console.error(err.message);
