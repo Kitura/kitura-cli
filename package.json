@@ -8,9 +8,12 @@
     "kitura-create": "kitura-create.js",
     "kitura-idt": "kitura-idt.js",
     "kitura-init": "kitura-init.js",
+    "kitura-basic": "kitura-basic.js",
+    "kitura-api": "kitura-api.js",
     "kitura-kit": "kitura-kit.js",
     "kitura-run": "kitura-run.js",
-    "kitura-sdk": "kitura-sdk.js"
+    "kitura-sdk": "kitura-sdk.js",
+    "helper": "helper.js"
   },
   "scripts": {
     "test": "./test.sh"

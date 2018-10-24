@@ -4,7 +4,7 @@ const path = require('path');
 const tools = require('./helper');
 
 const gitURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects'
-const gitBranch = 'init'
+const gitBranch = 'openAPI'
 
 let args = process.argv.slice(2);
 
@@ -44,9 +44,9 @@ if (!(args.includes('--skip-build'))) {
 
 function printHelp() {
     console.log("");
-    console.log("  Usage: kitura init [options]");
+    console.log("  Usage: kitura openapi [options]");
     console.log("");
-    console.log("  Scaffold a bare-bones Kitura project.");
+    console.log("  Scaffold a Kitura project with OpenAPI.");
     console.log("");
     console.log("  Options:");
     console.log("");
