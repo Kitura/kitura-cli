@@ -6,7 +6,7 @@ const program = require('commander');
 program
     .version(pjson.version)
     .description('Kitura command-line interface')
-    .command('init', 'scaffold a bare-bones Kitura project')
+    .command('init', 'scaffold a basic cloud ready Kitura project.')
     .command('api', 'scaffold a Kitura project with OpenAPI')
     .command('basic', 'create a skeleton Kitura project')
     .command('create', 'interactively create a Kitura project')
