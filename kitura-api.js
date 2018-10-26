@@ -3,8 +3,8 @@
 const path = require('path');
 const tools = require('./helper');
 
-const gitURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects'
-const gitBranch = 'openAPI'
+const gitURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects';
+const gitBranch = 'openAPI';
 
 let args = process.argv.slice(2);
 
@@ -46,7 +46,7 @@ function printHelp() {
     console.log("");
     console.log("  Usage: kitura openapi [options]");
     console.log("");
-    console.log("  Scaffold a Kitura project with OpenAPI.");
+    console.log("  Scaffold a cloud ready Kitura project with OpenAPI.");
     console.log("");
     console.log("  Options:");
     console.log("");

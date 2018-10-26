@@ -12,8 +12,7 @@
     "kitura-api": "kitura-api.js",
     "kitura-kit": "kitura-kit.js",
     "kitura-run": "kitura-run.js",
-    "kitura-sdk": "kitura-sdk.js",
-    "helper": "helper.js"
+    "kitura-sdk": "kitura-sdk.js"
   },
   "scripts": {
     "test": "./test.sh"

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 const path = require('path');
-const tools = require('./helper');
+const tools = require('./helper.js');
 
-const gitURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects'
-const gitBranch = 'init'
+const gitURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects';
+const gitBranch = 'init';
 
 let args = process.argv.slice(2);
 
@@ -46,7 +46,7 @@ function printHelp() {
     console.log("");
     console.log("  Usage: kitura init [options]");
     console.log("");
-    console.log("  Scaffold a bare-bones Kitura project.");
+    console.log("  Scaffold a basic cloud ready Kitura project.");
     console.log("");
     console.log("  Options:");
     console.log("");

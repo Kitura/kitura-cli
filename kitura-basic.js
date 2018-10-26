@@ -3,8 +3,8 @@
 const path = require('path');
 const tools = require('./helper');
 
-const gitURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects'
-const gitBranch = 'basic'
+const gitURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects';
+const gitBranch = 'basic';
 
 let args = process.argv.slice(2);
 
