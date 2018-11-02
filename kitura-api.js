@@ -1,46 +1,44 @@
 #!/usr/bin/env node
 
-const path = require('path');
-const tools = require('./helper');
+/*
+ * Copyright IBM Corporation 2017
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-const gitURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects';
+const tools = require('./helper');
 const gitBranch = 'openAPI';
 
-let args = process.argv.slice(2);
+// If '--help' is specified then print help.
+tools.checkArgs();
 
-if (args.length > 0) {
-    if (args.indexOf('--help') > -1) {
-        printHelp();
-        process.exit(0);
-    }
-}
-
-let currentDirPath = path.resolve("./");
-let currentDir = path.basename(currentDirPath);
-// Replace spaces with hyphens so Xcode project will build.
-let projName = currentDir.replace(/ /g, "-");
-
-if (projName.charAt(0) === '.') {
-    console.error(chalk.red('Application name cannot start with .: %s'));
-    process.exit(1);
-}
+// Make sure project name doesn't start with problem characters.
+tools.validateProjectName();
 
 // Make sure directory doesn't contain problem characters.
-tools.validateDirectoryName(projName);
+tools.validateDirectoryName();
 
 // Make sure directory is empty.
 tools.checkCurrentDirIsEmpty();
 
 // Clone repo contents into current directory.
-tools.cloneProject(gitURL, gitBranch, args);
+tools.cloneProject(gitBranch);
 
 // Rename project to match current directory
-tools.renameProject(projName, gitBranch);
+tools.renameProject(gitBranch);
 
 // If '--skip-build' not specified, then build project.
-if (!(args.includes('--skip-build'))) {
-    tools.buildProject(projName);
-}
+tools.buildProject();
 
 function printHelp() {
     console.log("");

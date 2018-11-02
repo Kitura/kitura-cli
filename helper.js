@@ -1,13 +1,55 @@
+/*
+ * Copyright IBM Corporation 2017
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 const chalk = require('chalk');
 const spawnSync = require('child_process').spawnSync;
 const os = require('os');
 const fs = require('fs');
+const path = require('path');
+var args;
+var projName;
+const gitURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects';
 
 module.exports = {
-  validateDirectoryName: function validateDirectoryName(projectName) {
+  checkArgs: function checkArgs() {
+    args = process.argv.slice(2);
+    exports.args = args;
+    if (args.length > 0) {
+        if (args.indexOf('--help') > -1) {
+            printHelp();
+            process.exit(0);
+        }
+    }
+  },
+
+  validateProjectName: function validateProjectName() {
+    let currentDirPath = path.resolve("./");
+    let currentDir = path.basename(currentDirPath);
+    // Replace spaces with hyphens so Xcode project will build.
+    projName = currentDir.replace(/ /g, "-");
+
+    if (projName.charAt(0) === '.') {
+        console.error(chalk.red('Application name cannot start with .: %s'));
+        process.exit(1);
+    }
+  },
+
+  validateDirectoryName: function validateDirectoryName() {
     var problemChars = /[%:;="<>”|\\\/]/;
-    if (problemChars.test(projectName)) {
+    if (problemChars.test(projName)) {
       console.error(chalk.red('Error: ') + 'Project directory cannot contain the following characters:  %":;=<>”|\\');
       process.exit(1);
     }
@@ -28,9 +70,9 @@ module.exports = {
       }
   },
 
-  cloneProject: function cloneProject(url, branch, args) {
+  cloneProject: function cloneProject(branch) {
       console.log('Creating project...');
-      let clone = spawnSync('git', ['clone', '-b', branch, url, '.']);
+      let clone = spawnSync('git', ['clone', '-b', branch, gitURL, '.']);
 
       if (clone.status !== 0) {
           console.error(chalk.red('Error: ') + 'failed to run git clone.');
@@ -58,10 +100,10 @@ module.exports = {
       }
   },
 
-  renameProject: function renameProject(projectName, branch) {
-      let projNameLowercase = projectName.toLowerCase();
+  renameProject: function renameProject(branch) {
+      let projNameLowercase = projName.toLowerCase();
       // Only contains alphanumeric characters.
-      let projNameClean = projectName.replace(/^[^a-zA-Z]*/, '')
+      let projNameClean = projName.replace(/^[^a-zA-Z]*/, '')
           .replace(/[^a-zA-Z0-9]/g, '');
       // Does not contain uppercase letters.
       let projNameCleanLowercase = projNameClean.toLowerCase()
@@ -74,9 +116,9 @@ module.exports = {
       try {
         if (branch !== 'basic') {
           fs.renameSync("./chart/" + oldProjNameCleanLowercase, "./chart/" + projNameCleanLowercase);
-          fs.renameSync("./Sources/" + oldProjName, "./Sources/" + projectName);
+          fs.renameSync("./Sources/" + oldProjName, "./Sources/" + projName);
         } else {
-          fs.renameSync("./Sources/" + oldProjNameLowercase, "./Sources/" + projectName);
+          fs.renameSync("./Sources/" + oldProjNameLowercase, "./Sources/" + projName);
         }
       } catch (err) {
           console.error(chalk.red('Error: ') + 'could not rename directories.');
@@ -103,7 +145,7 @@ module.exports = {
           process.exit(renameClean.status);
       }
       // Rename instances of project name which can't contain Uppercase characters
-      var rename = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjName + '/' + projectName + '/g', '{}', ';'])
+      var rename = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjName + '/' + projName + '/g', '{}', ';'])
       if (rename.status !== 0) {
           console.error(chalk.red('Error: ') + 'could not rename project.');
           console.error(rename.stderr.toString());
@@ -111,7 +153,8 @@ module.exports = {
       }
   },
 
-  buildProject: function buildProject(projectName) {
+  buildProject: function buildProject() {
+    if (!(args.includes('--skip-build'))) {
       console.log('Running `swift build` to build project...');
 
       var build = spawnSync('swift', ['build'], { stdio:[0,1,2] });
@@ -130,11 +173,12 @@ module.exports = {
               console.log('Next steps:');
               console.log('');
               console.log('Open your Xcode project:');
-              console.log(chalk.grey('   $ open ' + projectName + '.xcodeproj'));
+              console.log(chalk.grey('   $ open ' + projName + '.xcodeproj'));
               console.log('');
               console.log('Or, run your app from the terminal:');
               console.log(chalk.grey('   $ swift run'));
           }
       }
+    }
   }
 }
