@@ -18,7 +18,7 @@ if (args.length > 0) {
     options = options.concat(args);
 }
 
-let child = spawn('bx', options, { stdio: 'inherit' });
+let child = spawn('ibmcloud', options, { stdio: 'inherit' });
 child.on('error', (err) => {
     console.error(chalk.red('Error: ') + 'failed to run IBM Cloud Developer Tools');
     console.error('Run `kitura idt` to install');

@@ -7,7 +7,7 @@ const spawn = require('child_process').spawn;
 program
     .parse(process.argv);
 
-let child = spawn('bx', ['dev', 'build'], { stdio: 'inherit' });
+let child = spawn('ibmcloud', ['dev', 'build'], { stdio: 'inherit' });
 child.on('error', (err) => {
     console.error(chalk.red('Error: ') + 'failed to run IBM Cloud Developer Tools');
     console.error('Run `kitura idt` to install');
