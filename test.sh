@@ -52,6 +52,19 @@ fi
 cd ..
 rm -rf $DIRNAME
 
+echo "Testing: kitura init"
+mkdir $DIRNAME
+cd $DIRNAME || exit 1
+if ! kitura init
+then
+    echo "Failed"
+    cd ..
+    rm -rf "$TESTDIR"
+    exit 1
+fi
+cd ..
+rm -rf $DIRNAME
+
 echo "Testing: kitura create --app --skip-build --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
 if ! kitura create --app --skip-build --spec '{ "appType": "crud", "appName": "test"}'
 then

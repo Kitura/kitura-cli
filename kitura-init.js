@@ -5,6 +5,7 @@ const spawnSync = require('child_process').spawnSync;
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
+const replaceInFile = require('replace-in-file');
 
 const initURL = 'https://github.com/IBM-Swift/generator-swiftserver-projects'
 const initBranch = 'init'
@@ -119,32 +120,60 @@ function renameProject() {
         console.error(err.message);
         process.exit(err.errno);
     }
-    // Rename instances of project name (charts can't contain special characters)
-    var renameClean = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjNameClean + '/' + projNameClean + '/g', '{}', ';'])
-    if (renameClean.status !== 0) {
-        console.error(chalk.red('Error: ') + 'could not rename project.');
-        console.error(renameClean.stderr.toString());
-        process.exit(renameClean.status);
+
+    const lowercaseCurrentArtifacts = getArtifactsFor(oldProjNameCleanLowercase, "lowercase");
+    const lowercaseNewArtifacts = getArtifactsFor(projNameClean, "lowercase");
+
+
+    const uppercaseCurrentArtifacts = getArtifactsFor(oldProjName, "uppercase");
+    const uppercaseNewArtifacts = getArtifactsFor(projName, "uppercase");
+
+    for (const fileName of Object.keys(lowercaseCurrentArtifacts)) {
+      if (fileName === "chart") {
+         const filePath = `chart/${projNameCleanLowercase}/values.yaml`
+         replaceProjectStringsInArtifact(filePath, lowercaseCurrentArtifacts[fileName], lowercaseNewArtifacts[fileName]);
+      } else {
+        replaceProjectStringsInArtifact(fileName, lowercaseCurrentArtifacts[fileName], lowercaseNewArtifacts[fileName]);
+      }
     }
-    var renameLowercase = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjNameLowercase + '/' + projNameLowercase + '/g', '{}', ';'])
-    if (renameClean.status !== 0) {
-        console.error(chalk.red('Error: ') + 'could not rename project.');
-        console.error(renameClean.stderr.toString());
-        process.exit(renameClean.status);
+    for (const fileName of Object.keys(uppercaseCurrentArtifacts)) {
+      replaceProjectStringsInArtifact(fileName, uppercaseCurrentArtifacts[fileName], uppercaseNewArtifacts[fileName]);
     }
-    var renameLowercaseClean = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjNameCleanLowercase + '/' + projNameCleanLowercase + '/g', '{}', ';'])
-    if (renameClean.status !== 0) {
-        console.error(chalk.red('Error: ') + 'could not rename project.');
-        console.error(renameClean.stderr.toString());
-        process.exit(renameClean.status);
+}
+
+function getArtifactsFor(name, valueCase) {
+  return getArtifacts(name)[valueCase];
+}
+
+function getArtifacts(name) {
+  return {
+    lowercase: {
+      "cli-config.yml" : [`container-name-run : "${name}-swift-run"`, `container-name-tools : "${name}-swift-tools"`, `image-name-run : "${name}-swift-run"`, `image-name-tools : "${name}-swift-tools"`, `chart-path : "chart/${name}"`],
+      "debian/control" : [`Source: ${name}-0.0`, `Package: ${name}-0.0`],
+      "debian/changelog" : [`${name}-0.0 (1-1) unstable; urgency=low`],
+      "chart" : [`repository: registry.ng.bluemix.net/replace-me-namespace/${name}`]
+    },
+    uppercase: {
+      "cli-config.yml" : [`debug-cmd : "/swift-utils/tools-utils.sh debug ${name} 1024"`],
+      "debian/install" : [`.build/              usr/src/${name}`, `terraform/scripts/install.sh usr/src/${name}`, `terraform/scripts/start.sh   usr/src/${name}`],
+      "iterative-dev.sh" : [`pid="$(pgrep ${name})"`, `echo "killing ${name}"`, `/swift-utils/tools-utils.sh debug ${name} 1024`, `./.build/debug/${name} &`],
+      "Package.swift" : [`name: "${name}",`, `.target(name: "${name}", dependencies: [ .target(name: "Application"), "Kitura" , "HeliumLogger"]),` ],
+      "terraform/scripts/start.sh" : [`./${name}`],
+      "terraform/variables.tf" : [`default = "${name}-01"`],
+      "Dockerfile" : [`CMD [ "sh", "-c", "cd /swift-project && .build-ubuntu/release/${name}" ]`]
     }
-    // Rename instances of project name which can't contain Uppercase characters
-    var rename = spawnSync('find', ['.', '-exec', 'sed', '-i', '', 's/' + oldProjName + '/' + projName + '/g', '{}', ';'])
-    if (rename.status !== 0) {
-        console.error(chalk.red('Error: ') + 'could not rename project.');
-        console.error(rename.stderr.toString());
-        process.exit(rename.status);
+  }
+}
+
+function replaceProjectStringsInArtifact(filePath, fromStrings, toStrings) {
+  for (const i in fromStrings) {
+    const options = {
+      files: filePath,
+      from: fromStrings[i],
+      to: toStrings[i]
     }
+    replaceInFile.sync(options);
+  }
 }
 
 function buildProject() {
@@ -173,8 +202,6 @@ function buildProject() {
         }
     }
 }
-
-
 
 function printHelp() {
     console.log("");
