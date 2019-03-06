@@ -39,19 +39,6 @@ then
     exit 1
 fi
 
-echo "Testing: kitura init --skip-build"
-mkdir $DIRNAME
-cd $DIRNAME || exit 1
-if ! kitura init --skip-build
-then
-    echo "Failed"
-    cd ..
-    rm -rf "$TESTDIR"
-    exit 1
-fi
-cd ..
-rm -rf $DIRNAME
-
 echo "Testing: kitura init"
 mkdir $DIRNAME
 cd $DIRNAME || exit 1
@@ -65,7 +52,7 @@ fi
 cd ..
 rm -rf $DIRNAME
 
-echo "Testing: kitura create --app --skip-build --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
+echo "Testing: kitura create --app --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
 if ! kitura create --app --skip-build --spec '{ "appType": "crud", "appName": "test"}'
 then
     echo "Failed"
@@ -75,7 +62,7 @@ fi
 echo "Cleaning up generated project"
 rm -rf swiftserver
 
-echo "Testing: kitura create --app --skip-build --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
+echo "Testing: kitura create --app --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
 if ! kitura create --app --skip-build --spec '{ "appType": "scaffold", "appName": "test"}'
 then
     echo "Failed"
