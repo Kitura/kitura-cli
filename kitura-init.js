@@ -128,69 +128,24 @@ function renameProject() {
         console.error(err.message);
         process.exit(err.errno);
     }
-    //Creates an artifact based on the current contents of the project files, which contains the generator placeholders.
-    const lowercaseCurrentArtifacts = getArtifactsFor(oldProjNameCleanLowercase, "lowercase");
-    //Creates an artifact that will be used to replace the lowercaseCurrentArtifacts with the new project name.
-    const lowercaseNewArtifacts = getArtifactsFor(projNameClean, "lowercase");
+    //Construct a regex expression to replace multiple occurances of oldProjName
+    const oldProjNameRegex = new RegExp(oldProjName, 'g');
+    //Construct a regex expression to replace multiple occurances of oldProjNameCleanLowercase
+    const oldProjNameCleanLowercaseRegex = new RegExp(oldProjNameCleanLowercase, 'g');
 
-    //Creates an artifact based on the current contents of the project files, which contains the generator placeholders.
-    const uppercaseCurrentArtifacts = getArtifactsFor(oldProjName, "uppercase");
-    //Creates an artifact that will be used to replace the uppercaseCurrentArtifacts with the new project name.
-    const uppercaseNewArtifacts = getArtifactsFor(projName, "uppercase");
-
-    for (const fileName of Object.keys(lowercaseCurrentArtifacts)) {
-      //We need to add a special case for chart as the name of the directory within chart depends on the name of the project.
-      if (fileName === "chart") {
-         const filePath = `chart/${projNameCleanLowercase}/values.yaml`
-         replaceProjectStringsInArtifact(filePath, lowercaseCurrentArtifacts[fileName], lowercaseNewArtifacts[fileName]);
-      } else {
-        replaceProjectStringsInArtifact(fileName, lowercaseCurrentArtifacts[fileName], lowercaseNewArtifacts[fileName]);
-      }
-    }
-    for (const fileName of Object.keys(uppercaseCurrentArtifacts)) {
-      replaceProjectStringsInArtifact(fileName, uppercaseCurrentArtifacts[fileName], uppercaseNewArtifacts[fileName]);
-    }
-}
-
-function getArtifactsFor(name, valueCase) {
-  return getArtifacts(name)[valueCase];
-}
-
-/*
-  Objects containing key values pairs of the files mapped to all the lines that require a change in that file.
-  We have a mapping for both the lowercased generatorswiftserverprojects as well as the uppercased Generator-Swiftserver-Projects.
-*/
-function getArtifacts(name) {
-  return {
-    lowercase: {
-      "cli-config.yml" : [`container-name-run : "${name}-swift-run"`, `container-name-tools : "${name}-swift-tools"`, `image-name-run : "${name}-swift-run"`, `image-name-tools : "${name}-swift-tools"`, `chart-path : "chart/${name}"`],
-      "debian/control" : [`Source: ${name}-0.0`, `Package: ${name}-0.0`],
-      "debian/changelog" : [`${name}-0.0 (1-1) unstable; urgency=low`],
-      "chart" : [`repository: registry.ng.bluemix.net/replace-me-namespace/${name}`]
-    },
-    uppercase: {
-      "cli-config.yml" : [`debug-cmd : "/swift-utils/tools-utils.sh debug ${name} 1024"`],
-      "debian/install" : [`.build/              usr/src/${name}`, `terraform/scripts/install.sh usr/src/${name}`, `terraform/scripts/start.sh   usr/src/${name}`],
-      "iterative-dev.sh" : [`pid="$(pgrep ${name})"`, `echo "killing ${name}"`, `/swift-utils/tools-utils.sh debug ${name} 1024`, `./.build/debug/${name} &`],
-      "Package.swift" : [`name: "${name}",`, `.target(name: "${name}", dependencies: [ .target(name: "Application"), "Kitura" , "HeliumLogger"]),` ],
-      "terraform/scripts/start.sh" : [`./${name}`],
-      "terraform/variables.tf" : [`default = "${name}-01"`],
-      "Dockerfile" : [`CMD [ "sh", "-c", "cd /swift-project && .build-ubuntu/release/${name}" ]`]
-    }
-  }
-}
-
-//Performs the actual replacement by looping over each artifact we have built up and mapping the new values to the correct placeholders.
-function replaceProjectStringsInArtifact(filePath, fromStrings, toStrings) {
-  for (const i in fromStrings) {
+    /*
+      Creates the options for replace-in-file which will look at all files within this directory (and nested directories) replacing all
+      occurances of the Generator-Swiftserver-Projects and generatorswiftserverprojects placeholders that are added by the generator.
+    */
     const options = {
-      files: filePath,
-      from: fromStrings[i],
-      to: toStrings[i]
-    }
+      files: "**",
+      from: [oldProjNameRegex, oldProjNameCleanLowercaseRegex],
+      to: [projName, projNameCleanLowercase]
+    };
+
     replaceInFile.sync(options);
-  }
 }
+
 
 function buildProject() {
     console.log('Running `swift build` to build project...');
