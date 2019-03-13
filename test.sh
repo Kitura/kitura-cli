@@ -53,7 +53,7 @@ cd ..
 rm -rf $DIRNAME
 
 echo "Testing: kitura create --app --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
-if ! kitura create --app --skip-build --spec '{ "appType": "crud", "appName": "test"}'
+if ! kitura create --app --spec '{ "appType": "crud", "appName": "test"}'
 then
     echo "Failed"
     rm -rf "$TESTDIR"
@@ -63,7 +63,7 @@ echo "Cleaning up generated project"
 rm -rf swiftserver
 
 echo "Testing: kitura create --app --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
-if ! kitura create --app --skip-build --spec '{ "appType": "scaffold", "appName": "test"}'
+if ! kitura create --app --spec '{ "appType": "scaffold", "appName": "test"}'
 then
     echo "Failed"
     rm -rf "$TESTDIR"
