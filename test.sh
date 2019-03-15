@@ -29,6 +29,31 @@ fi
 echo "Installation complete"
 rm "$PKG"
 
+install_swift() {
+  # Get the ID and VERSION_ID from /etc/os-release, stripping quotes
+  distribution=`grep '^ID=' /etc/os-release | sed -e's#.*="\?\([^"]*\)"\?#\1#'`
+  version=`grep '^VERSION_ID=' /etc/os-release | sed -e's#.*="\?\([^"]*\)"\?#\1#'`
+  version_no_dots=`echo $version | awk -F. '{print $1$2}'`
+  export UBUNTU_VERSION="${distribution}${version}"
+  export UBUNTU_VERSION_NO_DOTS="${distribution}${version_no_dots}"
+
+  SWIFT_SNAPSHOT=`cat .swift-version`
+
+  echo "Installing '${SWIFT_SNAPSHOT}'..."
+
+  wget --progress=dot:giga https://swift.org/builds/$SNAPSHOT_TYPE/$UBUNTU_VERSION_NO_DOTS/$SWIFT_SNAPSHOT/$SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
+  tar xzf $SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
+  export PATH=$projectFolder/$SWIFT_SNAPSHOT-$UBUNTU_VERSION/usr/bin:$PATH
+  rm $SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
+}
+
+if [[ ${OSTYPE} == *"linux"* ]]; then
+  install_swift
+fi
+echo "----------------------------------"
+echo ${OSTYPE}
+echo "----------------------------------"
+
 cd "$TESTDIR" || exit 1
 
 echo "Testing: kitura --version"
@@ -38,19 +63,6 @@ then
     rm -rf "$TESTDIR"
     exit 1
 fi
-
-install_swiftenv() {
-  if ! swiftenv version
-  then
-    echo "Installing swiftenv"
-    git clone https://github.com/kylef/swiftenv.git ~/.swiftenv
-    echo 'export SWIFTENV_ROOT="$HOME/.swiftenv"' >> ~/.bash_profile
-    echo 'export PATH="$SWIFTENV_ROOT/bin:$PATH"' >> ~/.bash_profile
-    echo 'eval "$(swiftenv init -)"' >> ~/.bash_profile
-  else
-    echo "swiftenv already installed"
-  fi
-}
 
 create_project() {
   mkdir $DIRNAME
@@ -65,14 +77,6 @@ create_project() {
   if [ -d swiftserver ]
   then
     cd swiftserver
-  fi
-}
-
-install_swift() {
-  echo "Installing Swift"
-  if swiftenv install
-  then
-    echo "Swift installed"
   fi
 }
 
@@ -94,11 +98,7 @@ test_kitura_build() {
 
   echo "Testing: $*"
 
-  install_swiftenv
-
   create_project $*
-
-  install_swift
 
   swift_build
 
