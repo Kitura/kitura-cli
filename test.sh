@@ -39,6 +39,17 @@ install_swift() {
 
   SWIFT_SNAPSHOT=`cat .swift-version`
 
+  if [[ ${SWIFT_SNAPSHOT} =~ ^.*RELEASE.*$ ]]; then
+  	SNAPSHOT_TYPE=$(echo "$SWIFT_SNAPSHOT" | tr '[:upper:]' '[:lower:]')
+  elif [[ ${SWIFT_SNAPSHOT} =~ ^swift-.*-DEVELOPMENT.*$ ]]; then
+        SNAPSHOT_TYPE=${SWIFT_SNAPSHOT%-DEVELOPMENT*}-branch
+  elif [[ ${SWIFT_SNAPSHOT} =~ ^.*DEVELOPMENT.*$ ]]; then
+	SNAPSHOT_TYPE=development
+  else
+	SNAPSHOT_TYPE="$(echo "$SWIFT_SNAPSHOT" | tr '[:upper:]' '[:lower:]')-release"
+        SWIFT_SNAPSHOT="${SWIFT_SNAPSHOT}-RELEASE"
+  fi
+
   echo "Installing '${SWIFT_SNAPSHOT}'..."
 
   wget --progress=dot:giga https://swift.org/builds/$SNAPSHOT_TYPE/$UBUNTU_VERSION_NO_DOTS/$SWIFT_SNAPSHOT/$SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
