@@ -113,7 +113,7 @@ then
     exit 1
 fi
 
-# test_kitura_build init --skip-build
+test_kitura_build init --skip-build
 test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}' --skip-build .
 test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}' --skip-build .
 
