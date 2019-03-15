@@ -61,20 +61,18 @@ create_project() {
     rm -rf "$TESTDIR"
     exit 1
   fi
+
+  if [ -d swiftserver ]
+  then
+    cd swiftserver
+  fi
 }
 
 install_swift() {
-  if ! swift --version
+  echo "Installing Swift"
+  if swiftenv install
   then
-    echo "Installing Swift"
-    if ! swiftenv install
-    then
-      echo "Failed to install swift"
-      rm -rf "$TESTDIR"
-      exit 1
-    fi
-  else
-    echo "Swift already installed"
+    echo "Swift installed"
   fi
 }
 
@@ -94,7 +92,7 @@ cleanup() {
 
 test_kitura_build() {
 
-  echo "Testing: + $*"
+  echo "Testing: $*"
 
   install_swiftenv
 
@@ -115,9 +113,9 @@ then
     exit 1
 fi
 
-test_kitura_build init --skip-build
-test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}'
-test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}'
+# test_kitura_build init --skip-build
+test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}' --skip-build .
+test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}' --skip-build .
 
 echo "Testing: kitura kit"
 if ! kitura kit
