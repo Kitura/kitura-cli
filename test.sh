@@ -38,7 +38,7 @@ install_swift() {
   export UBUNTU_VERSION_NO_DOTS="${distribution}${version_no_dots}"
 
   SWIFT_SNAPSHOT="swift-4.2.3"
-
+  projectFolder='pwd'
   if [[ ${SWIFT_SNAPSHOT} =~ ^.*RELEASE.*$ ]]; then
   	SNAPSHOT_TYPE=$(echo "$SWIFT_SNAPSHOT" | tr '[:upper:]' '[:lower:]')
   elif [[ ${SWIFT_SNAPSHOT} =~ ^swift-.*-DEVELOPMENT.*$ ]]; then
