@@ -12,9 +12,3 @@ os:
 - linux
 - osx
 osx_image: xcode9
-
-before_install:
-  - git clone https://github.com/IBM-Swift/Package-Builder.git
-
-script:
-  - ./Package-Builder/linux/install_swift_binaries.sh

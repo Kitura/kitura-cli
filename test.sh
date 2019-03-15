@@ -39,38 +39,85 @@ then
     exit 1
 fi
 
-echo "Testing: kitura init"
-mkdir $DIRNAME
-cd $DIRNAME || exit 1
-if ! kitura init
-then
-    echo "Failed"
-    cd ..
-    rm -rf "$TESTDIR"
-    exit 1
-fi
-cd ..
-rm -rf $DIRNAME
+install_swiftenv() {
+  if ! swiftenv version
+  then
+    echo "Installing swiftenv"
+    git clone https://github.com/kylef/swiftenv.git ~/.swiftenv
+    echo 'export SWIFTENV_ROOT="$HOME/.swiftenv"' >> ~/.bash_profile
+    echo 'export PATH="$SWIFTENV_ROOT/bin:$PATH"' >> ~/.bash_profile
+    echo 'eval "$(swiftenv init -)"' >> ~/.bash_profile
+  else
+    echo "swiftenv already installed"
+  fi
+}
 
-echo "Testing: kitura create --app --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
-if ! kitura create --app --spec '{ "appType": "crud", "appName": "test"}'
-then
-    echo "Failed"
+create_project() {
+  mkdir $DIRNAME
+  cd $DIRNAME || exit 1
+  if ! kitura $*
+  then
+    echo "Failed to create project"
     rm -rf "$TESTDIR"
     exit 1
-fi
-echo "Cleaning up generated project"
-rm -rf swiftserver
+  fi
+}
 
-echo "Testing: kitura create --app --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
-if ! kitura create --app --spec '{ "appType": "scaffold", "appName": "test"}'
+install_swift() {
+  if ! swift --version
+  then
+    echo "Installing Swift"
+    if ! swiftenv install
+    then
+      echo "Failed to install swift"
+      rm -rf "$TESTDIR"
+      exit 1
+    fi
+  else
+    echo "Swift already installed"
+  fi
+}
+
+swift_build() {
+  if ! swift build
+  then
+    echo "swift build failed"
+    rm -rf "$TESTDIR"
+    exit 1
+  fi
+}
+
+cleanup() {
+  cd ..
+  rm -rf $DIRNAME
+}
+
+test_kitura_build() {
+
+  echo "Testing: + $*"
+
+  install_swiftenv
+
+  create_project $*
+
+  install_swift
+
+  swift_build
+
+  cleanup
+}
+
+echo "Testing: kitura kit"
+if ! kitura kit
 then
     echo "Failed"
     rm -rf "$TESTDIR"
     exit 1
 fi
-echo "Cleaning up generated project"
-rm -rf swiftserver
+
+test_kitura_build init --skip-build
+test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}'
+test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}'
 
 echo "Testing: kitura kit"
 if ! kitura kit
