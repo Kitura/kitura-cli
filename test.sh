@@ -30,8 +30,8 @@ echo "Installation complete"
 rm "$PKG"
 
 install_swift() {
-  swiftenvFile="~/.swiftenv"
-  if [ -a "$swiftenvFile" ]
+  swiftenvFile="$HOME/.swiftenv"
+  if [ -f "$swiftenvFile" ]
   then
     echo "swiftenv is already downloaded"
   else
