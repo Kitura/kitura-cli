@@ -30,40 +30,12 @@ echo "Installation complete"
 rm "$PKG"
 
 install_swift() {
-  # Get the ID and VERSION_ID from /etc/os-release, stripping quotes
-  distribution=`grep '^ID=' /etc/os-release | sed -e's#.*="\?\([^"]*\)"\?#\1#'`
-  version=`grep '^VERSION_ID=' /etc/os-release | sed -e's#.*="\?\([^"]*\)"\?#\1#'`
-  version_no_dots=`echo $version | awk -F. '{print $1$2}'`
-  export UBUNTU_VERSION="${distribution}${version}"
-  export UBUNTU_VERSION_NO_DOTS="${distribution}${version_no_dots}"
-
-  SWIFT_SNAPSHOT="swift-4.2.3"
-  projectFolder='pwd'
-  if [[ ${SWIFT_SNAPSHOT} =~ ^.*RELEASE.*$ ]]; then
-  	SNAPSHOT_TYPE=$(echo "$SWIFT_SNAPSHOT" | tr '[:upper:]' '[:lower:]')
-  elif [[ ${SWIFT_SNAPSHOT} =~ ^swift-.*-DEVELOPMENT.*$ ]]; then
-        SNAPSHOT_TYPE=${SWIFT_SNAPSHOT%-DEVELOPMENT*}-branch
-  elif [[ ${SWIFT_SNAPSHOT} =~ ^.*DEVELOPMENT.*$ ]]; then
-	SNAPSHOT_TYPE=development
-  else
-	SNAPSHOT_TYPE="$(echo "$SWIFT_SNAPSHOT" | tr '[:upper:]' '[:lower:]')-release"
-        SWIFT_SNAPSHOT="${SWIFT_SNAPSHOT}-RELEASE"
-  fi
-
-  echo "Installing '${SWIFT_SNAPSHOT}'..."
-
-  wget --progress=dot:giga https://swift.org/builds/$SNAPSHOT_TYPE/$UBUNTU_VERSION_NO_DOTS/$SWIFT_SNAPSHOT/$SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
-  tar xzf $SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
-  export PATH=$projectFolder/$SWIFT_SNAPSHOT-$UBUNTU_VERSION/usr/bin:$PATH
-  rm $SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
+  eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
 }
 
 if [[ ${OSTYPE} == *"linux"* ]]; then
   install_swift
 fi
-echo "----------------------------------"
-echo ${OSTYPE}
-echo "----------------------------------"
 
 cd "$TESTDIR" || exit 1
 
