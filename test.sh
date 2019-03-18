@@ -30,7 +30,21 @@ echo "Installation complete"
 rm "$PKG"
 
 install_swift() {
-  eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+  swiftFile = ".swift-version"
+  if [ -f "$file" ]
+  then
+    echo "swiftenv is already installed"
+  else
+    git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
+    export SWIFTENV_ROOT="$HOME/.swiftenv"
+    export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
+  fi
+
+  if [ -f "$file" ] || [ -n "$SWIFT_VERSION" ]; then
+    swiftenv install -s
+  else
+    swiftenv rehash
+  fi
 }
 
 cd "$TESTDIR" || exit 1
@@ -77,8 +91,10 @@ test_kitura_build() {
 
   echo "Testing: $*"
 
+  #Create project which also creates the '.swift-version' file
   create_project $*
 
+  #Install Swift on Linux using the '.swift-version' file so we get the correct version of Swift
   if [[ ${OSTYPE} == *"linux"* ]]; then
     install_swift
   fi
@@ -87,14 +103,6 @@ test_kitura_build() {
 
   cleanup
 }
-
-echo "Testing: kitura kit"
-if ! kitura kit
-then
-    echo "Failed"
-    rm -rf "$TESTDIR"
-    exit 1
-fi
 
 test_kitura_build init --skip-build
 test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}' --skip-build .
