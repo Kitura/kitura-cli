@@ -30,17 +30,17 @@ echo "Installation complete"
 rm "$PKG"
 
 install_swift() {
-  swiftFile = ".swift-version"
-  if [ -f "$file" ]
+  swiftenvFile="~/.swiftenv"
+  if [ -f "$swiftenvFile" ]
   then
-    echo "swiftenv is already installed"
+    echo "swiftenv is already downloaded"
   else
     git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
     export SWIFTENV_ROOT="$HOME/.swiftenv"
     export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
   fi
 
-  if [ -f "$file" ] || [ -n "$SWIFT_VERSION" ]; then
+  if [ -f ".swift-version" ] || [ -n "$SWIFT_VERSION" ]; then
     swiftenv install -s
   else
     swiftenv rehash
