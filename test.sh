@@ -79,7 +79,9 @@ test_kitura_build() {
 
   create_project $*
 
-  install_swift
+  if [[ ${OSTYPE} == *"linux"* ]]; then
+    install_swift
+  fi
 
   swift_build
 
