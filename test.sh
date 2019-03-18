@@ -33,10 +33,6 @@ install_swift() {
   eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
 }
 
-if [[ ${OSTYPE} == *"linux"* ]]; then
-  install_swift
-fi
-
 cd "$TESTDIR" || exit 1
 
 echo "Testing: kitura --version"
@@ -82,6 +78,8 @@ test_kitura_build() {
   echo "Testing: $*"
 
   create_project $*
+
+  install_swift
 
   swift_build
 
