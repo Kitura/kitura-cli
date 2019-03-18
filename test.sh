@@ -31,8 +31,6 @@ rm "$PKG"
 
 install_swift() {
   swiftenvFile="$HOME/.swiftenv"
-  echo $swiftenvFile
-  ls "$swiftenvFile"
   if [ -a "$swiftenvFile" ]
   then
     echo "swiftenv is already downloaded"
