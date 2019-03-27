@@ -29,6 +29,24 @@ fi
 echo "Installation complete"
 rm "$PKG"
 
+install_swift() {
+  swiftenvFile="$HOME/.swiftenv"
+  if [ -a "$swiftenvFile" ]
+  then
+    echo "swiftenv is already downloaded"
+  else
+    git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
+    export SWIFTENV_ROOT="$HOME/.swiftenv"
+    export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
+  fi
+
+  if [ -f ".swift-version" ] || [ -n "$SWIFT_VERSION" ]; then
+    swiftenv install -s
+  else
+    swiftenv rehash
+  fi
+}
+
 cd "$TESTDIR" || exit 1
 
 echo "Testing: kitura --version"
@@ -39,38 +57,56 @@ then
     exit 1
 fi
 
-echo "Testing: kitura init --skip-build"
-mkdir $DIRNAME
-cd $DIRNAME || exit 1
-if ! kitura init --skip-build
-then
-    echo "Failed"
-    cd ..
+create_project() {
+  mkdir $DIRNAME
+  cd $DIRNAME || exit 1
+  if ! kitura $*
+  then
+    echo "Failed to create project"
     rm -rf "$TESTDIR"
     exit 1
-fi
-cd ..
-rm -rf $DIRNAME
+  fi
 
-echo "Testing: kitura create --app --skip-build --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
-if ! kitura create --app --skip-build --spec '{ "appType": "crud", "appName": "test"}'
-then
-    echo "Failed"
-    rm -rf "$TESTDIR"
-    exit 1
-fi
-echo "Cleaning up generated project"
-rm -rf swiftserver
+  if [ -d swiftserver ]
+  then
+    cd swiftserver
+  fi
+}
 
-echo "Testing: kitura create --app --skip-build --spec '{ \"appType\": \"scaffold\", \"appName\": \"test\"}'"
-if ! kitura create --app --skip-build --spec '{ "appType": "scaffold", "appName": "test"}'
-then
-    echo "Failed"
+swift_build() {
+  if ! swift build
+  then
+    echo "swift build failed"
     rm -rf "$TESTDIR"
     exit 1
-fi
-echo "Cleaning up generated project"
-rm -rf swiftserver
+  fi
+}
+
+cleanup() {
+  cd ..
+  rm -rf $DIRNAME
+}
+
+test_kitura_build() {
+
+  echo "Testing: $*"
+
+  #Create project which also creates the '.swift-version' file
+  create_project $*
+
+  #Install Swift on Linux using the '.swift-version' file so we get the correct version of Swift
+  if [[ ${OSTYPE} == *"linux"* ]]; then
+    install_swift
+  fi
+
+  swift_build
+
+  cleanup
+}
+
+test_kitura_build init --skip-build
+test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}' --skip-build .
+test_kitura_build create --app --spec '{"appType":"scaffold","appName":"test"}' --skip-build .
 
 echo "Testing: kitura kit"
 if ! kitura kit
