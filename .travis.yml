@@ -11,4 +11,4 @@ node_js:
 os:
 - linux
 - osx
-osx_image: xcode9
+osx_image: xcode10.2
