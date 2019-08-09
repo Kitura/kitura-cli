@@ -33,7 +33,7 @@
   "homepage": "https://github.com/IBM-Swift/kitura-cli#readme",
   "dependencies": {
     "chalk": "^2.4.1",
-    "commander": "^2.15.1",
+    "commander": "^3.0.0",
     "replace-in-file": "^3.4.3",
     "request": "^2.87.0"
   },
