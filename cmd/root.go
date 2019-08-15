@@ -39,8 +39,10 @@ var rootCmd = &cobra.Command{
 		version, _ := cmd.Flags().GetBool("version")
 		if version == true {
 			fmt.Println("@@RELEASE@@")
-			os.Exit(0)
+		} else {
+			cmd.Help()
 		}
+		os.Exit(0)
 	},
 }
 
