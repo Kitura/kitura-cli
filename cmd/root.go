@@ -26,8 +26,8 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "kitura",
-	Short: "A command line interface for simplfying the creation of Kitura projects.",
-	Long: `Kitura CLI is a tool for simplyfying the development process around Kitura projects.
+	Short: "A command line interface for simplifying the creation of Kitura projects.",
+	Long: `Kitura CLI is a tool for simplifying the development process around Kitura projects.
 
 	Example:
 	- This application allows you to quickly generate a cloud ready application:
