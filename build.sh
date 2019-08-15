@@ -8,7 +8,7 @@ export GOPATH=$HOME/kitura-cli
 KITURA_PROJ=$GOPATH/src/kitura
 
 # Write version number into sources
-sed -i -e"s#@@RELEASE@@#${RELEASE}#g"
+sed -i -e"s#@@RELEASE@@#${RELEASE}#g" install.sh linux-amd64/DEBIAN/control
 
 # Copy sources into right location for Go to find them
 mkdir -p $KITURA_PROJ
@@ -30,8 +30,8 @@ mkdir -p $PROJ_SRC/linux-amd64/usr/local/bin
 env GOOS=linux GOARCH=amd64 go build -o $PROJ_SRC/linux-amd64/usr/local/bin/kitura
 
 # Package macOS binary into downloadable tar.gz
-cd $PROJ_SRC && tar -cf kitura-cli-@@RELEASE@@.tar.gz darwin-amd64
+cd $PROJ_SRC && tar -cf kitura-cli-${RELEASE}.tar.gz darwin-amd64
 
 # Package linux binary into .deb
-cd $PROJ_SRC && ln -s linux-amd64 kitura-cli_@@RELEASE@@ && dpkg-deb --build kitura-cli_@@RELEASE@@ && rm kitura-cli_@@RELEASE@@
+cd $PROJ_SRC && ln -s linux-amd64 kitura-cli_${RELEASE} && dpkg-deb --build kitura-cli_${RELEASE} && rm kitura-cli_${RELEASE}
 
