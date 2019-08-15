@@ -1,8 +1,14 @@
 #!/bin/bash
 
+if [ -z "$1" ]; then
+    echo "Usage: build.sh <release>"
+    echo " - where <release> is a SemVer version in the format x.y.z"
+    exit 1
+fi
+
 export PROJ_SRC=$PWD
 
-export RELEASE=0.0.17
+export RELEASE=$1
 
 export GOPATH=$HOME/kitura-cli
 KITURA_PROJ=$GOPATH/src/kitura
