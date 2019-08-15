@@ -14,7 +14,7 @@ export GOPATH=$HOME/kitura-cli
 KITURA_PROJ=$GOPATH/src/kitura
 
 # Write version number into sources
-sed -i -e"s#@@RELEASE@@#${RELEASE}#g" install.sh linux-amd64/DEBIAN/control
+sed -i -e"s#@@RELEASE@@#${RELEASE}#g" install.sh linux-amd64/DEBIAN/control cmd/root.go
 
 # Copy sources into right location for Go to find them
 mkdir -p $KITURA_PROJ
