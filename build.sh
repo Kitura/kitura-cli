@@ -10,7 +10,7 @@ export PROJ_SRC=$PWD
 
 export RELEASE=$1
 
-export GOPATH=$HOME/kitura-cli
+export GOPATH=$HOME/kitura-cli-$RELEASE
 KITURA_PROJ=$GOPATH/src/kitura
 
 # Write version number into sources
@@ -22,9 +22,9 @@ cp -R -p * $KITURA_PROJ/
 
 # Install dependencies
 # cobra (https://github.com/spf13/cobra)
-go get -v -u github.com/spf13/cobra/cobra
+go get -v github.com/spf13/cobra/cobra
 # go-git (https://github.com/src-d/go-git)
-go get -v -u gopkg.in/src-d/go-git.v4/...
+go get -v gopkg.in/src-d/go-git.v4/...
 
 # Set umask to ensure deb contents have right permissions
 umask 022
