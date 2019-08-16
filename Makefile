@@ -15,6 +15,13 @@ MACOS_BINARY=$(MACOS_DIR)$(MACOS_PATH)/$(BINARY_NAME)
 GOPATH=$(HOME)/kitura-cli-$(RELEASE)
 KITURA_SRC=$(GOPATH)/src/kitura
 
+# Handle additional param for sed -i on Darwin
+SED_FLAGS=
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+    SED_FLAGS := ""
+endif
+
 all: build package
 build: build-linux build-darwin
 package: package-linux package-darwin
@@ -37,7 +44,7 @@ endif
 	# Replace release placeholders in sources
 	cp install.sh.ver install.sh
 	cp $(LINUX_DIR)/DEBIAN/control.ver $(LINUX_DIR)/DEBIAN/control
-	sed -i -e"s#@@RELEASE@@#$(RELEASE)#g" install.sh $(LINUX_DIR)/DEBIAN/control $(KITURA_SRC)/cmd/root.go
+	sed -i $(SED_FLAGS) -e"s#@@RELEASE@@#$(RELEASE)#g" install.sh $(LINUX_DIR)/DEBIAN/control $(KITURA_SRC)/cmd/root.go
 deps:
 	# Install dependencies
 	$(GOGET) github.com/spf13/cobra/cobra
