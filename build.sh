@@ -20,7 +20,7 @@ function test_Darwin() {
     # Check that command does not already exist
     kitura && failCmdFound || echo "Command 'kitura' not found - OK"
     # Check reported CLI version matches our release
-    cliVersion=`/darwin-amd64/kitura --version`
+    cliVersion=`./darwin-amd64/kitura --version`
     if [ "$cliVersion" == $RELEASE ]; then
         echo "kitura --version reports $cliVersion - OK"
     else
