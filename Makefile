@@ -43,8 +43,9 @@ endif
 	cp -R -p cmd $(KITURA_SRC)
 	# Replace release placeholders in sources
 	cp install.sh.ver install.sh
+	cp kitura.rb.ver kitura.rb
 	cp $(LINUX_DIR)/DEBIAN/control.ver $(LINUX_DIR)/DEBIAN/control
-	sed -i $(SED_FLAGS) -e"s#@@RELEASE@@#$(RELEASE)#g" install.sh $(LINUX_DIR)/DEBIAN/control $(KITURA_SRC)/cmd/root.go
+	sed -i $(SED_FLAGS) -e"s#@@RELEASE@@#$(RELEASE)#g" install.sh $(LINUX_DIR)/DEBIAN/control $(KITURA_SRC)/cmd/root.go kitura.rb
 deps:
 	# Install dependencies
 	$(GOGET) github.com/spf13/cobra/cobra
@@ -63,5 +64,11 @@ package-linux: build-linux
 	mv $(PACKAGE_NAME)_$(RELEASE).deb $(PACKAGE_NAME)_$(RELEASE)_amd64.deb
 	rm -r $(PACKAGE_NAME)_$(RELEASE)
 
-package-darwin: build-darwin
+package-darwin-tar: build-darwin
 	tar -czf $(PACKAGE_NAME)_$(RELEASE)_darwin.tar.gz $(MACOS_DIR)
+
+package-darwin: package-darwin-tar
+	# This syntax defines SHA_VALUE at rule execution time.
+	# Note: separate rule to delay evaluation until tar.gz has been written
+	$(eval SHA_VALUE := $(shell shasum -a 256 $(PACKAGE_NAME)_$(RELEASE)_darwin.tar.gz | cut -d' ' -f1))
+	sed -i $(SED_FLAGS) -e"s#@@SHA256@@#$(SHA_VALUE)#" kitura.rb

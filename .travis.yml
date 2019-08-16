@@ -27,6 +27,7 @@ deploy:
    - kitura-cli_${TRAVIS_TAG}_amd64.deb
    - kitura-cli_${TRAVIS_TAG}_darwin.tar.gz
    - install.sh
+   - kitura.rb
   skip_cleanup: true
   on:
     tags: true

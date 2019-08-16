@@ -1,3 +1,4 @@
 # Generated files that should never be checked into git
 install.sh
 linux-amd64/DEBIAN/control
+kitura.rb
