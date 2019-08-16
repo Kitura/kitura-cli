@@ -64,4 +64,4 @@ package-linux: build-linux
 	rm -r $(PACKAGE_NAME)_$(RELEASE)
 
 package-darwin: build-darwin
-	tar -czf $(PACKAGE_NAME)-$(RELEASE)_darwin.tar.gz $(MACOS_DIR)
+	tar -czf $(PACKAGE_NAME)_$(RELEASE)_darwin.tar.gz $(MACOS_DIR)

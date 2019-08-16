@@ -24,7 +24,7 @@ deploy:
   api_key:
     secure: Eag3dXonpciJXsxoG7PPF7lvp8v/VVZa9ggWb7mcbdVS1lgS6C6eN2t5B9ziTyZ7G5M8ScN8nVSeTIDBf8mNVgjRQghAhuIf9inblS1OxzbqPOPlAVPLYawCUUnKygpReVQY96UR9+2mWFXJUzt1GvwqVlHcGJE2wMBTR3Feg7Py1Gpmb8DVgMhG+r5UCF9l0m4r2z54NOxfyNlbjXYjIbAqI8IkDtWgYCPsO4qBA7COBkeULXNB2rvK2Vc9UVW0mdV76PbxXTWAEYniFQR3LriUF6lWRu9YP9Swhm3aKQOo1xwUz5inX3VFIfdEf1W/ef3oSQyoGC3e7cAnJl3Ycm2VgcDxaKDhQ5x796fKrPS9YHscBUZ56cy+1VDuMpa++iz4W1/ZroHnYdSHgakSlyAKvfEixUsWqJx62Ylm6JqnAD7VFb4a331oQuB6Rl3rwIfOQQuJFVdvSMwxeeyX97BEfVobusB7AOMkH+ZdOQs0A903BJgfdw598Pbjsni+jSJmGfd3PdQaGNDxXHNY4gRdLloQP9+U7+D/K2bNAl1l4xYfSsnsxEk7iV4sITWtxygB3ttmqOJ9aMfPEnpjErBDChPvgF+seYCbqqvH/ndTWtMTXwRre9Tu+HLjATfxxjkYCIpEnAPHWnxt6OT701g7X0WW9jfAx62vlJFr23I=
   file: 
-   - kitura-cli-${TRAVIS_TAG}_amd64.deb
+   - kitura-cli_${TRAVIS_TAG}_amd64.deb
    - kitura-cli_${TRAVIS_TAG}_darwin.tar.gz
    - install.sh
   skip_cleanup: true

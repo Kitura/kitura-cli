@@ -2,9 +2,9 @@
 
 The following instructions are for releasing a new version of kitura-cli:
 
-- Tag the release using the format `v0.0.17`
-- Run the `build.sh` script to build and package the binary
-- Attach the `kitura-cli_0.0.17_amd64.deb`, `kitura-cli-0.0.17_darwin.tar.gz` and `install.sh` files to the release.
+- Tag the release using the format `0.0.17`, which will trigger a build.
+  - Travis will then execute `build.sh <TAG>`, building and packaging the binary.
+  - Travis will attach the `kitura-cli_0.0.17_amd64.deb`, `kitura-cli_0.0.17_darwin.tar.gz` and `install.sh` files to the release.
 
 ### Updating homebrew
 
