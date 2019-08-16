@@ -50,37 +50,42 @@ function build_Linux() {
     cd $PROJ_SRC && cp -R -p linux-amd64 kitura-cli_${RELEASE} && dpkg-deb --build kitura-cli_${RELEASE} && mv kitura-cli_${RELEASE}.deb kitura-cli_${RELEASE}_amd64.deb && rm -r kitura-cli_${RELEASE}
 }
 
+function failCmdFound() {
+    echo "Error - 'kitura' command already exists"
+    echo "Existing  kitura --version: `kitura --version`"
+    exit 1
+}
+
 function test_Darwin() {
-    // Todo: Test brew installation
-    // Check that command does not already exist
+    # Todo: Test brew installation
+    # Check that command does not already exist
     kitura && failCmdFound || echo "Command 'kitura' not found - OK"
-    // Check reported CLI version matches our release
+    # Check reported CLI version matches our release
     cliVersion=`/darwin-amd64/kitura --version`
     if [ "$cliVersion" == $RELEASE ]; then
         echo "kitura --version reports $cliVersion - OK"
     else
         echo "Error - kitura --version reports $cliVersion, expected $RELEASE"
-	false
+	exit 1
     fi
-    // Check that kitura init successfully produces a project
+    # Check that kitura init successfully produces a project
     ./darwin-amd64/kitura init --dir TestProj
     rm -rf TestProj
 }
 
 function test_Linux() {
-    // Check that command does not already exist
+    # Check that command does not already exist
     kitura && failCmdFound || echo "Command 'kitura' not found - OK"
     sudo dpkg -i kitura-cli_${RELEASE}_amd64.deb
-    // Check reported CLI version matches our release
-    cliVersion=`/darwin-amd64/kitura --version`
+    # Check reported CLI version matches our release
+    cliVersion=`kitura --version`
     if [ "$cliVersion" == $RELEASE ]; then
         echo "kitura --version reports $cliVersion - OK"
     else
         echo "Error - kitura --version reports $cliVersion, expected $RELEASE"
-	false
+	exit 1
     fi
-    // Check that kitura init successfully produces a project
-    ./darwin-amd64/kitura init --dir TestProj
+    # Check that kitura init successfully produces a project
     kitura init --dir TestProj
     rm -rf TestProj
 }
