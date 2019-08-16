@@ -6,6 +6,7 @@ branches:
   only:
     - master
     - "/^issue.*$/"
+    - /^\d+.\d+.\d+$/
     - prepRelease
 
 os:
