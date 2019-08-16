@@ -14,7 +14,7 @@
 
 package main
 
-import "kitura/cmd"
+import "./cmd"
 
 func main() {
 	cmd.Execute()
