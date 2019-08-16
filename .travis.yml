@@ -1,14 +1,21 @@
-language: node_js
-sudo: required
+language: go
+go:
+  - 1.12.x
+
 branches:
   only:
   - master
   - "/^issue.*$/"
-  - /^greenkeeper/.*$/
-node_js:
-- '8'
-- '10'
+  - prepRelease
+
 os:
 - linux
 - osx
-osx_image: xcode10.2
+
+osx_image: xcode11
+dist: xenial
+sudo: required
+
+script:
+  - ./build.sh
+
