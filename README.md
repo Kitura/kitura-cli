@@ -13,14 +13,15 @@ $ brew install kitura
 
 As a one-liner:
 ```
-$ curl https://github.com/IBM-Swift/kitura-cli/releases/download/0.0.17/install.sh | sudo bash
+$ curl -fsSL https://github.com/IBM-Swift/kitura-cli/releases/latest/download/install.sh | sudo bash
 ```
 
 Or if you prefer to install manually:
 ```
-curl -O https://github.com/IBM-Swift/kitura-cli/releases/download/0.0.17/kitura-cli_0.0.17_amd64.deb
-sudo dpkg -i kitura-cli_0.0.17_amd64.deb
+curl -LO https://github.com/IBM-Swift/kitura-cli/releases/download/<release>/kitura-cli_<release>_amd64.deb
+sudo dpkg -i kitura-cli_<release>_amd64.deb
 ```
+- substitute `<release>` for the version of the CLI you are installing.
 
 ## Usage
 
