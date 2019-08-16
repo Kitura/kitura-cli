@@ -16,13 +16,21 @@ GOPATH=$(HOME)/kitura-cli-$(RELEASE)
 KITURA_SRC=$(GOPATH)/src/kitura
 
 all: build package
-build: setup deps build-linux build-darwin
+build: build-linux build-darwin
 package: package-linux package-darwin
 clean: 
 	$(GOCLEAN)
-	rm -f $(LINUX_BINARY)
-	rm -f $(MACOS_BINARY)
+	rm -f install.sh
+	rm -f $(LINUX_DIR)/DEBIAN/control
+	rm -rf $(LINUX_DIR)/usr
+	rm -rf $(MACOS_DIR)
+
 setup:
+	# Check RELEASE is set
+ifndef RELEASE
+	$(error RELEASE is not set)
+endif
+	
 	# Copy kitura/cmd module into GOPATH
 	mkdir -p $(KITURA_SRC)
 	cp -R -p cmd $(KITURA_SRC)
@@ -43,7 +51,7 @@ build-darwin: setup deps
 
 package-linux: build-linux
 	cp -R -p $(LINUX_DIR) $(PACKAGE_NAME)_$(RELEASE)
-	chmod -R 755 $(LINUX_DIR)
+	chmod -R 755 $(LINUX_DIR)$(LINUX_PATH)
 	dpkg-deb --build $(PACKAGE_NAME)_$(RELEASE)
 	mv $(PACKAGE_NAME)_$(RELEASE).deb $(PACKAGE_NAME)_$(RELEASE)_amd64.deb
 	rm -r $(PACKAGE_NAME)_$(RELEASE)
