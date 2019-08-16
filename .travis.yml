@@ -17,5 +17,5 @@ dist: xenial
 sudo: required
 
 script:
-  - ./build.sh
+  - ./build.sh 0.0.1
 
