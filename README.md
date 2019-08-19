@@ -1,49 +1,56 @@
 # Kitura command-line interface
 
-This Node.js package provides a `kitura` command-line interface, to simplify the process of creating [Kitura](https://github.com/IBM-Swift/Kitura) applications.
+This Go package provides a `kitura` command-line interface, to simplify the process of creating [Kitura](https://github.com/IBM-Swift/Kitura) applications.
 
-## Installation via Homebrew
+## Installation on macOS (via Homebrew)
 
+Kitura's CLI may be installed using [Homebrew](https://brew.sh):
 ```
 $ brew tap ibm-swift/kitura
 $ brew install kitura
 ```
 
-Installing via Homebrew will also install the latest version of Node.js on your system.
+## Installation (simple)
 
-## Installation via NPM
-
+You can install (either on Mac or Linux) with this one-liner:
 ```
-$ npm install -g kitura-cli
+$ curl -fsSL https://github.com/IBM-Swift/kitura-cli/releases/latest/download/install.sh | sudo bash
+```
+The `kitura` binary will be placed in your `/usr/local/bin` directory.
+
+## Installation (manual)
+
+If you'd prefer not to use a script, the binary can be installed manually by downloading the release binary from GitHub. In the following commands, substitute `<release>` for the version of the CLI you are installing.
+
+On Mac:
+```
+$ curl -LO https://github.com/IBM-Swift/kitura-cli/releases/download/<release>/kitura-cli_<release>_darwin.tar.gz
+$ tar -xzf kitura-cli_<release>_darwin.tar.gz
+$ sudo mv darwin-amd64/kitura /usr/local/bin/
 ```
 
-> If you encounter permissions errors such as `ENOENT` you may need to make changes to your NPM configuration. See [here](https://docs.npmjs.com/getting-started/fixing-npm-permissions) for further details.
+On Linux:
+```
+curl -LO https://github.com/IBM-Swift/kitura-cli/releases/download/<release>/kitura-cli_<release>_amd64.deb
+sudo dpkg -i kitura-cli_<release>_amd64.deb
+```
 
 ## Usage
 
 ```
-$ kitura
+Usage:
+  kitura [command]
 
-  Usage: kitura [options] [command]
+Available Commands:
+  build       Build the project in a local container
+  help        Help about any command
+  idt         Install IBM Cloud Developer Tools
+  init        Initialize a Kitura project
+  run         Run the project in a local container.
 
-  Kitura command-line interface
-
-
-  Options:
-
-    -V, --version  output the version number
-    -h, --help     output usage information
-
-
-  Commands:
-
-    build       build the project in a local container
-    create      interactively create a Kitura project
-    idt         install IBM Cloud Developer Tools
-    init        scaffold a bare-bones Kitura project
-    kit         print Cocoapods boilerplate for KituraKit
-    run         run the project in a local container
-    help [cmd]  display help for [cmd]
+Flags:
+  -h, --help     help for kitura
+  -v, --version   Prints the kitura-cli version number.
 ```
 
 ## Release process

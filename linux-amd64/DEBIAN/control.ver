@@ -1,0 +1,7 @@
+Package: kitura-cli
+Version: @@RELEASE@@-1
+Section: base
+Priority: optional
+Architecture: amd64
+Maintainer: Swift-at-IBM <swiftdevops@us.ibm.com>
+Description: Command line interface for generating Kitura projects.
