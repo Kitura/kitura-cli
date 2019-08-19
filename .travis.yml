@@ -7,7 +7,6 @@ branches:
     - master
     - "/^issue.*$/"
     - /^\d+.\d+.\d+$/
-    - prepRelease
 
 os:
   - linux
