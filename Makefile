@@ -2,6 +2,7 @@ GOCMD=go
 GOBUILD=$(GOCMD) build
 GOGET=$(GOCMD) get
 GOCLEAN=$(GOCMD) clean
+GOTEST=$(GOCMD) test
 
 BINARY_NAME=kitura
 PACKAGE_NAME=kitura-cli
@@ -56,6 +57,10 @@ build-linux: setup deps
 
 build-darwin: setup deps
 	GOOS=darwin GOARCH=amd64 $(GOBUILD) -o $(MACOS_BINARY) -v
+
+test:
+	cd $(KITURA_SRC)
+	$(GOTEST) kitura/cmd
 
 package-linux: build-linux
 	cp -R -p $(LINUX_DIR) $(PACKAGE_NAME)_$(RELEASE)
