@@ -3,13 +3,13 @@ RELEASE=@@RELEASE@@
 case `uname` in
   Darwin)
     PKG_NAME=kitura-cli_${RELEASE}_darwin.tar.gz
-    PKG_URL=https://github.com/IBM-Swift/kitura-cli/releases/download/${RELEASE}/${PKG_NAME}
+    PKG_URL=https://github.com/Kitura/kitura-cli/releases/download/${RELEASE}/${PKG_NAME}
 
     curl -sSLO $PKG_URL && tar -xzf $PKG_NAME && mv darwin-amd64/kitura /usr/local/bin/ && rmdir darwin-amd64 && rm $PKG_NAME && echo kitura-cli ${RELEASE} successfully installed.
     ;;
   Linux)
     PKG_NAME=kitura-cli_${RELEASE}_amd64.deb
-    PKG_URL=https://github.com/IBM-Swift/kitura-cli/releases/download/${RELEASE}/${PKG_NAME}
+    PKG_URL=https://github.com/Kitura/kitura-cli/releases/download/${RELEASE}/${PKG_NAME}
 
     curl -sSLO $PKG_URL && dpkg -i $PKG_NAME && rm $PKG_NAME && echo kitura-cli ${RELEASE} successfully installed.
     ;;

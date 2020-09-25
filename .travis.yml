@@ -30,4 +30,4 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-    repo: IBM-Swift/kitura-cli
+    repo: Kitura/kitura-cli

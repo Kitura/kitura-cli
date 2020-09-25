@@ -165,12 +165,12 @@ func validateProjectName(name string) error {
 }
 
 /*
-	Uses go-git to clone a specified branch of the IBM-Swift/generator-swiftserver-projects repo to a specified directory.
+	Uses go-git to clone a specified branch of the Kitura/generator-swiftserver-projects repo to a specified directory.
 */
 func cloneProjectFor(branch, directory string) error {
 	log.Printf("Cloning kitura project into %v\n", directory)
 	_, err := git.PlainClone(directory, false, &git.CloneOptions{
-		URL:           "https://github.com/IBM-Swift/generator-swiftserver-projects",
+		URL:           "https://github.com/Kitura/generator-swiftserver-projects",
 		Progress:      os.Stdout,
 		ReferenceName: plumbing.ReferenceName(fmt.Sprintf("refs/heads/%v", branch)),
 		SingleBranch:  true,
