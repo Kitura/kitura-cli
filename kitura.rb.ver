@@ -1,7 +1,7 @@
 class Kitura < Formula
   desc "Kitura command-line interface"
-  homepage "https://github.com/IBM-Swift/kitura-cli#readme"
-  url "https://github.com/IBM-Swift/kitura-cli/releases/download/@@RELEASE@@/kitura-cli_@@RELEASE@@_darwin.tar.gz"
+  homepage "https://github.com/Kitura/kitura-cli#readme"
+  url "https://github.com/Kitura/kitura-cli/releases/download/@@RELEASE@@/kitura-cli_@@RELEASE@@_darwin.tar.gz"
   version "@@RELEASE@@"
   sha256 "@@SHA256@@"
 
