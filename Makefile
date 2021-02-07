@@ -1,3 +1,6 @@
+BREWCMD=brew
+BREWGET=$(BREWCMD) install
+
 GOCMD=go
 GOBUILD=$(GOCMD) build
 GOGET=$(GOCMD) get
@@ -27,7 +30,7 @@ all: build package
 build: build-linux build-darwin
 package: package-linux package-darwin
 clean: 
-	$(GOCLEAN)
+	swift package clean
 	rm -f install.sh
 	rm -f $(LINUX_DIR)/DEBIAN/control
 	rm -rf $(LINUX_DIR)/usr
@@ -49,8 +52,7 @@ endif
 	sed -i $(SED_FLAGS) -e"s#@@RELEASE@@#$(RELEASE)#g" install.sh $(LINUX_DIR)/DEBIAN/control $(KITURA_SRC)/cmd/root.go kitura.rb
 deps:
 	# Install dependencies
-	$(GOGET) github.com/spf13/cobra/cobra
-	$(GOGET) gopkg.in/src-d/go-git.v4/...
+	$(BREWGET) swift-sh
 
 build-linux: setup deps
 	GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(LINUX_BINARY) -v
