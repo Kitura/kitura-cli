@@ -49,12 +49,17 @@ function test_Linux() {
     rm -rf TestProj
 }
 
+
 case `uname` in
   Darwin)
     make build-darwin package-darwin
     test_Darwin
     ;;
   Linux)
+    URL=https://swift.org/builds/swift-5.3.3-release/ubuntu1804/swift-5.3.3-RELEASE/swift-5.3.3-RELEASE-ubuntu18.04.tar.gz
+    wget "${URL}"
+    export PATH="${PWD}/swift-5.3.3-RELEASE-ubuntu18.04/usr/bin/:${PATH}"
+
     make
     test_Linux
     ;;
