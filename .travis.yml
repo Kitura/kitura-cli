@@ -4,12 +4,29 @@ branches:
     - "/^issue.*$/"
     - /^\d+.\d+.\d+$/
 
-os:
-  - linux
-  - osx
-osx_image: xcode12.2
-dist: xenial
-sudo: required
+# the matrix of builds should cover each OS or Linux distribution supported.
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      sudo: required
+      services:
+        - docker
+      before_install:
+        - docker pull kitura/swift:5
+        - docker run --mount "type=bind,source=`pwd`,target=/project" --rm -it kitura/swift-dev:5 /bin/bash
+        - docker ps -a
+
+    - os: osx
+      osx_image: xcode12.2
+      sudo: required
+
+#os:
+#  - linux
+#  - osx
+#osx_image: xcode12.2
+#dist: xenial
+#sudo: required
 
 script:
   - "./build.sh ${TRAVIS_TAG:-0.0.1}"
