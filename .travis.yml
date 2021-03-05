@@ -14,12 +14,14 @@ matrix:
         - docker
       before_install:
         - docker pull kitura/swift-ci:5
-        - docker run --mount "type=bind,source=`pwd`,target=/project" --rm -it kitura/swift-ci:5 /bin/bash
-        - docker ps -a
+      script:
+        - docker run --mount "type=bind,source=`pwd`,target=/project" --rm -it kitura/swift-ci:5 "./build.sh ${TRAVIS_TAG:-0.0.1}"
 
     - os: osx
       osx_image: xcode12.2
       sudo: required
+      script:
+        - "./build.sh ${TRAVIS_TAG:-0.0.1}"
 
 #os:
 #  - linux
@@ -28,8 +30,8 @@ matrix:
 #dist: xenial
 #sudo: required
 
-script:
-  - "./build.sh ${TRAVIS_TAG:-0.0.1}"
+#script:
+#  - "./build.sh ${TRAVIS_TAG:-0.0.1}"
 
 deploy:
   provider: releases
