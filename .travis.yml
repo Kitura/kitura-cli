@@ -7,7 +7,7 @@ branches:
 os:
   - linux
   - osx
-osx_image: xcode11
+osx_image: xcode12.2
 dist: xenial
 sudo: required
 
