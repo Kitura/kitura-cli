@@ -1,4 +1,7 @@
 # Generated files that should never be checked into git
+.build/
+.swiftpm/
+
 install.sh
 linux-amd64/DEBIAN/control
 kitura.rb

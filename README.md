@@ -1,6 +1,8 @@
 # Kitura command-line interface
 
-This Go package provides a `kitura` command-line interface, to simplify the process of creating [Kitura](https://github.com/Kitura/Kitura) applications.
+This Swift package provides a `kitura` command-line interface, to simplify the process of creating [Kitura](https://github.com/Kitura/Kitura) applications.
+
+(Note: this Swift version is still an early work-in-progress.  Please check again in a bit for more features)
 
 ## Installation on macOS (via Homebrew)
 
@@ -37,20 +39,30 @@ sudo dpkg -i kitura-cli_<release>_amd64.deb
 
 ## Usage
 
+To start a new project:
+
 ```
-Usage:
-  kitura [command]
+kitura init MyProject
+cd MyProject
+swift build
+swift run
+```
 
-Available Commands:
-  build       Build the project in a local container
-  help        Help about any command
-  idt         Install IBM Cloud Developer Tools
-  init        Initialize a Kitura project
-  run         Run the project in a local container.
 
-Flags:
-  -h, --help     help for kitura
-  -v, --version   Prints the kitura-cli version number.
+Default help message:
+
+```
+OVERVIEW: A utility for initializing a Kitura project
+
+USAGE: kitura <subcommand>
+
+OPTIONS:
+  -h, --help              Show help information.
+
+SUBCOMMANDS:
+  init                    Initialize a new kitura project
+
+  See 'kitura help <subcommand>' for detailed help.
 ```
 
 ## Release process

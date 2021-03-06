@@ -19,17 +19,17 @@ function test_Darwin() {
     # Todo: Test brew installation
     # Check that command does not already exist
     kitura && failCmdFound || echo "Command 'kitura' not found - OK"
-    # Check reported CLI version matches our release
-    cliVersion=`./darwin-amd64/kitura --version`
-    if [ "$cliVersion" == $RELEASE ]; then
-        echo "kitura --version reports $cliVersion - OK"
-    else
-        echo "Error - kitura --version reports $cliVersion, expected $RELEASE"
-	exit 1
-    fi
-    # Check that kitura init successfully produces a project
-    ./darwin-amd64/kitura init --dir TestProj
-    rm -rf TestProj
+#    # Check reported CLI version matches our release
+#    cliVersion=`./darwin-amd64/kitura --version`
+#    if [ "$cliVersion" == $RELEASE ]; then
+#        echo "kitura --version reports $cliVersion - OK"
+#    else
+#        echo "Error - kitura --version reports $cliVersion, expected $RELEASE"
+#	exit 1
+#    fi
+#    # Check that kitura init successfully produces a project
+#    ./darwin-amd64/kitura init --dir TestProj
+#    rm -rf TestProj
 }
 
 function test_Linux() {
@@ -37,17 +37,18 @@ function test_Linux() {
     kitura && failCmdFound || echo "Command 'kitura' not found - OK"
     sudo dpkg -i kitura-cli_${RELEASE}_amd64.deb
     # Check reported CLI version matches our release
-    cliVersion=`kitura --version`
-    if [ "$cliVersion" == $RELEASE ]; then
-        echo "kitura --version reports $cliVersion - OK"
-    else
-        echo "Error - kitura --version reports $cliVersion, expected $RELEASE"
-	exit 1
-    fi
-    # Check that kitura init successfully produces a project
-    kitura init --dir TestProj
-    rm -rf TestProj
+#    cliVersion=`kitura --version`
+#    if [ "$cliVersion" == $RELEASE ]; then
+#        echo "kitura --version reports $cliVersion - OK"
+#    else
+#        echo "Error - kitura --version reports $cliVersion, expected $RELEASE"
+#	exit 1
+#    fi
+#    # Check that kitura init successfully produces a project
+#    kitura init --dir TestProj
+#    rm -rf TestProj
 }
+
 
 case `uname` in
   Darwin)
@@ -55,6 +56,12 @@ case `uname` in
     test_Darwin
     ;;
   Linux)
+    TAR_FILE=swift-5.3.3-RELEASE-ubuntu18.04.tar.gz
+    URL=https://swift.org/builds/swift-5.3.3-release/ubuntu1804/swift-5.3.3-RELEASE/${TAR_FILE}
+    wget "${URL}"
+    tar xzf ${TAR_FILE}
+    export PATH="${PWD}/swift-5.3.3-RELEASE-ubuntu18.04/usr/bin/:${PATH}"
+
     make
     test_Linux
     ;;
