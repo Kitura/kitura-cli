@@ -56,11 +56,11 @@ case `uname` in
     test_Darwin
     ;;
   Linux)
-    TAR_FILE=swift-5.3.3-RELEASE-ubuntu18.04.tar.gz
-    URL=https://swift.org/builds/swift-5.3.3-release/ubuntu1804/swift-5.3.3-RELEASE/${TAR_FILE}
-    wget "${URL}"
-    tar xzf ${TAR_FILE}
-    export PATH="${PWD}/swift-5.3.3-RELEASE-ubuntu18.04/usr/bin/:${PATH}"
+    #TAR_FILE=swift-5.3.3-RELEASE-ubuntu18.04.tar.gz
+    #URL=https://swift.org/builds/swift-5.3.3-release/ubuntu1804/swift-5.3.3-RELEASE/${TAR_FILE}
+    #wget "${URL}"
+    #tar xzf ${TAR_FILE}
+    #export PATH="${PWD}/swift-5.3.3-RELEASE-ubuntu18.04/usr/bin/:${PATH}"
 
     make
     test_Linux

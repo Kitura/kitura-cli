@@ -49,13 +49,19 @@ deps:
 	#$(BREWGET) swift-sh
 
 build-linux: setup deps
+	rm -f .build/release .build/debug
+	rm -rf .build/x86*
 	swift build -c release
 	mkdir -p "$(LINUX_DIR)$(LINUX_PATH)/"
+	file ".build/release/${BINARY_NAME}"
 	cp -p ".build/release/${BINARY_NAME}" "${LINUX_BINARY}"
 
 build-darwin: setup deps
+	rm -f .build/release .build/debug
+	rm -rf .build/x86*
 	swift build -c release
 	mkdir -p "$(MACOS_DIR)$(MACOS_PATH)/"
+	file ".build/release/${BINARY_NAME}"
 	cp -p ".build/release/${BINARY_NAME}" "${MACOS_BINARY}"
 
 test:
