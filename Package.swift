@@ -15,7 +15,7 @@ let package = Package(
             targets: ["KituraCommandCore"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMinor(from: "0.3.2")),
+        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMinor(from: "0.4.0")),
         .package(url: "https://github.com/kareman/SwiftShell", from: "5.1.0"),
         .package(url: "https://github.com/onevcat/Rainbow", .upToNextMinor(from: "3.2.0"))
     ],

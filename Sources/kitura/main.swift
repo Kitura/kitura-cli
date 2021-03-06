@@ -54,8 +54,21 @@ struct KituraCommand: ParsableCommand {
     }
 
     mutating func run() throws {
-        print("main run".lightYellow)
-        
+        print("""
+            To get started, try:
+            
+                kitura init MyProject
+            
+            For help:
+            
+                kitura --help
+            
+            """
+            
+        )
+//        print("kitura --help ")
+//        print("main run".lightYellow)
+//        
     }
 }
 
