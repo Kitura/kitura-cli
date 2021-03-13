@@ -13,9 +13,9 @@ matrix:
       services:
         - docker
       before_install:
-        - docker pull kitura/swift-ci:5
+        - docker pull docker.kitura.net/kitura/swift-ci:5
       script:
-        - docker run --mount "type=bind,source=`pwd`,target=/project" --rm -it kitura/swift-ci:5 ./build.sh ${TRAVIS_TAG:-0.0.1}
+        - docker run --mount "type=bind,source=`pwd`,target=/project" --rm -it docker.kitura.net/kitura/swift-ci:5 ./build.sh ${TRAVIS_TAG:-0.0.1}
 
     - os: osx
       osx_image: xcode12.2
@@ -37,7 +37,7 @@ deploy:
   provider: releases
   api_key:
     secure: L/P/CRLyqD0qWnwE6pnJXEWJ6xwgTYD0MB+hd9AK3VXIOMMqalxqtI4KmLvEM5HTPV94w7CVpMSmeEKT0nabx/X1gbCQhL3Cg6lYVqpDDiMKZmMbjlSrvrW+IGEveWLmoVrWpu/KNbtBp2gB6Ih+z6lkGLekfFKsOoshvxmllTyh50mBD2qm0MIZYWQx4so3jUATH7oUQDxXAsFmdbXtoug6XHvDn2kZb1sojy7aaHjjDpGSjI2+RlfAjMdIMfZLrwM4rDGJOzEuZa/rPj3Tb4lr/ajZ5f9D13lgeBYwuMPvWEWEzlcB8hn89jowWfGUmMbHbYinggpCCKKJdMwsdY1S3bfwFbO7mXQjz7zuNhmQ5nMHXVW2pIyGE9xsyL3YINh/z4QtT2p1hP6rVocizYpspI3z9uoMRL2u51b20JtG5Ugs0LY2W5Xvi/yPtriy+qIgGTaKl6X7LbzwPhUBbDjhMgvfelCEDDgTr1/nDtfCachlEve9Lw5pDQ/JbFqVCwUl7gxRaP6UD79shlafhJ3zG1SDI2GP7a3hGPVHWLLYe8aSz4EMbgWlcEOeENvHzBe0cg0I2C/94CBywEdd8LN9v2j8hpAzvqsSV89mNG/SRN+RJwNej05x+K5U9LX7arcu5rBJH7i2Kw0OV23rO1vGnDZwPDtR7IauQM2/y3Q=
-  file: 
+  file:
    - kitura-cli_${TRAVIS_TAG}_amd64.deb
    - kitura-cli_${TRAVIS_TAG}_darwin.tar.gz
    - install.sh
